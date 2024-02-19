@@ -75,9 +75,7 @@ Developers will let you know if there is any update in .env file.
 
 Please make changes according to them.
 
-Simply serve the Application
+The application will start with this command
 ```sh
    php artisan serve
 ```
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
