@@ -81,6 +81,7 @@ For student and tutor accounts, open phpMyAdmin on localhost and take a look at 
 
 Role id of "2" is tutor and "3" is student.
 
+---
 
 ### Subsequently running the app
 
@@ -94,11 +95,17 @@ For the next times, you can follow the steps below in order to run the applicati
    ```sh
    cp .env.example .env
    ```
-3. [Only needed when there are changes in database schema] Update migrations
+
+   [Run this only when _cp .env.example .env_ command was run] Generate the application key again
+   ```sh
+   php artisan key:generate
+   ```
+   
+4. [Only needed when there are changes in database schema] Update migrations
    ```sh
    php artisan migrate
    ```
-4. Serve the Application
+5. Serve the Application
    ```sh
    php artisan serve
    ```
