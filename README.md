@@ -100,6 +100,16 @@ For the next times, you can follow the steps below in order to run the applicati
    ```sh
    php artisan key:generate
    ```
+
+3. [Only needed when there are new npm dependencies installed] Install NPM Dependencies
+   ```sh
+   npm install
+   ```
+
+   [Run this only when _npm install_ command was run] Compile Assets
+   ```sh
+   npm run dev
+   ```
    
 4. [Only needed when there are changes in database schema] Update migrations
    ```sh
