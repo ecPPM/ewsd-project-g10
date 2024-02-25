@@ -6,7 +6,6 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
-use Carbon\Carbon;
 
 class AssignStudentsSeeder extends Seeder
 {
@@ -24,8 +23,8 @@ class AssignStudentsSeeder extends Seeder
                 'student_id' => $student->id,
                 'tutor_id' => null, // Assuming no tutor is assigned yet
                 'is_current' => false,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
+                'created_at' => now(),
+                'updated_at' => now(),
             ];
         })->toArray();
 
