@@ -58,4 +58,27 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(User::class, 'student_tutor', 'tutor_id', 'student_id');
     }
+
+    public function activeTutor()
+    {
+        return $this->tutors()->wherePivot('is_current', true)->first();
+    }
+
+    public function assignOrChangeTutor($tutorId)
+    {
+        $existingTutor = $this->activeTutor();
+
+        if ($existingTutor) {
+            if ($existingTutor->id === $tutorId) {
+                // do nothing if the same tutor is reassigned
+                return;
+            }
+            $this->tutors()->updateExistingPivot($existingTutor->id, ['is_current' => false, 'updated_at' => now()]);
+        }
+        else {
+            $this->tutors()->wherePivot('tutor_id', '=', null)->detach();
+        }
+
+        $this->tutors()->syncWithoutDetaching([$tutorId => ['is_current' => true, 'created_at' => now(), 'updated_at' => now()]]);
+    }
 }

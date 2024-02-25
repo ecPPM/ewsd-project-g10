@@ -64,58 +64,18 @@ After installing Node.js, verify that npm is installed correctly by running npm 
    ```sh
    npm run dev
    ```
-9. Seed dummy data for the Application
-   ```sh
-   php artisan db:seed
-   ```
-   This will fill sample data in "roles" and "users" tables
-   
-10. Serve the Application
-       ```sh
-       php artisan serve
-       ```
-
-You can now login with email "admin@gmail.com" and password "password" for admin account.
-
-For student and tutor accounts, open phpMyAdmin on localhost and take a look at the "users" table.
-
-Role id of "2" is tutor and "3" is student.
-
----
-
-### Subsequently running the app
-
-For the next times, you can follow the steps below in order to run the application.
-
-1. Get the latest code from github
-   ```sh
-   git pull
-   ```
-2. [Only needed when there are changes in configuration] Copy .env
-   ```sh
-   cp .env.example .env
-   ```
-
-   [Run this only when _cp .env.example .env_ command was run] Generate the application key again
-   ```sh
-   php artisan key:generate
-   ```
-
-3. [Only needed when there are new npm dependencies installed] Install NPM Dependencies
-   ```sh
-   npm install
-   ```
-
-   [Run this only when _npm install_ command was run] Compile Assets
-   ```sh
-   npm run dev
-   ```
-   
-4. [Only needed when there are changes in database schema] Update migrations
-   ```sh
-   php artisan migrate
-   ```
-5. Serve the Application
+9. Serve the Application
    ```sh
    php artisan serve
    ```
+
+### Subsequently running the app
+
+Developers will let you know if there is any update in .env file.
+
+Please make changes according to them.
+
+The application will start with this command
+```sh
+   php artisan serve
+```
