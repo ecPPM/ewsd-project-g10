@@ -64,6 +64,11 @@ class User extends Authenticatable
         return $this->tutors()->wherePivot('is_current', true)->first();
     }
 
+    public function activeStudents()
+    {
+        return $this->students()->wherePivot('is_current', true)->get();
+    }
+
     public function assignOrChangeTutor($tutorId)
     {
         $existingTutor = $this->activeTutor();
@@ -71,7 +76,7 @@ class User extends Authenticatable
         if ($existingTutor) {
             if ($existingTutor->id === $tutorId) {
                 // do nothing if the same tutor is reassigned
-                return;
+                return false;
             }
             $this->tutors()->updateExistingPivot($existingTutor->id, ['is_current' => false, 'updated_at' => now()]);
         }
@@ -80,5 +85,7 @@ class User extends Authenticatable
         }
 
         $this->tutors()->syncWithoutDetaching([$tutorId => ['is_current' => true, 'created_at' => now(), 'updated_at' => now()]]);
+
+        return true;
     }
 }
