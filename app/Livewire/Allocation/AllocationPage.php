@@ -3,6 +3,7 @@
 namespace App\Livewire\Allocation;
 
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -10,9 +11,12 @@ class AllocationPage extends Component
 {
     use WithPagination;
 
-    public $checkedTutor;
+    public $checkedTutor = false;
 
     public $search;
+
+    public $flashMessage;
+    public $flashStatus;
 
     // ------------ FOR STUDENT TABLE --------------------
     public $editingStudentId;
@@ -45,7 +49,20 @@ class AllocationPage extends Component
         if($this->checkedTutor) {
             $users = User::where('role_id', 2)->where('name','like',"%{$this->search}%")->paginate(10);
             if (strlen($this->editingStudentName >= 1)) {
-                $queryResults = User::where('role_id', 3)->where('name','like',"%{$this->editingStudentName}%")->limit(3)->get();
+                $selectedStudentsIds = collect($this->selectedStudents)->pluck('id')->toArray();
+
+                $excludedStudentIds = DB::table('student_tutor')
+                    ->where('tutor_id', $this->editingTutorId)
+                    ->where('is_current', true)
+                    ->pluck('student_id')
+                    ->toArray();
+
+                $queryResults = User::where('role_id', 3)
+                    ->where('name', 'like', "%{$this->editingStudentName}%")
+                    ->whereNotIn('id', $selectedStudentsIds)
+                    ->whereNotIn('id', $excludedStudentIds)
+                    ->limit(3)
+                    ->get();
             }
         } else {
             $users = User::where('role_id', 3)->where('name','like',"%{$this->search}%")->paginate(10);
@@ -59,8 +76,26 @@ class AllocationPage extends Component
 
     public function toggleTable()
     {
-        $this->reset('search','editingStudentId','editingStudentName','editingTutorId','editingTutorName','selectedStudents');
+        $this->reset(['search','editingStudentId','editingStudentName','editingTutorId','editingTutorName','selectedStudents']);
         $this->checkedTutor = !$this->checkedTutor;
+    }
+
+    public function showFlashMessage($status)
+    {
+        if($status) {
+            $this->flashMessage = "Successfully assigned!";
+            $this->flashStatus = "success";
+        } else {
+            $this->flashMessage = "Assigned the same tutor!";
+            $this->flashStatus = "warning";
+        }
+
+        $this->dispatch('flash-event');
+    }
+
+    public function resetFlashMessage()
+    {
+        $this->reset('flashMessage');
     }
 
     // -------------------- FOR STUDENT TABLE ----------------------------
@@ -74,7 +109,7 @@ class AllocationPage extends Component
 
     public function cancelEdit()
     {
-        $this->reset('editingStudentId','editingTutorName');
+        $this->reset(['editingStudentId','editingTutorName']);
     }
 
     public function update()
@@ -87,14 +122,13 @@ class AllocationPage extends Component
         } else {
             $tutor = User::where('name', $tutorName)->first();
             if ($tutor) {
-                $student->assignOrChangeTutor($tutor->id);
+                $assign = $student->assignOrChangeTutor($tutor->id);
                 $this->cancelEdit();
-                // flash message here
+                $this->showFlashMessage($assign);
             } else {
                 $this->errorTutorName = "User does not exist!";
             }
         }
-
     }
 
     public function toggleSelect($value)
@@ -107,6 +141,12 @@ class AllocationPage extends Component
         $tutorName = User::where('id', $tutorId)->first()->name;
         $this->editingTutorName = $tutorName;
         $this->isSelectingTutor = false;
+    }
+
+    public function focusTextbox()
+    {
+        $this->toggleSelect(true);
+        $this->reset('errorTutorName');
     }
 
     public function clickOutside()
@@ -131,7 +171,6 @@ class AllocationPage extends Component
     }
 
 
-
     public function toggleStudentSelect($value)
     {
         $this->isSelectingStudent = $value;
@@ -152,12 +191,18 @@ class AllocationPage extends Component
 
     public function cancelStudentEdit()
     {
-        $this->reset('editingTutorId','editingStudentName','selectedStudents');
+        $this->reset(['editingTutorId','editingStudentName','selectedStudents']);
     }
 
     public function bulkUpdate()
     {
+        foreach($this->selectedStudents as $student){
+            $student->assignOrChangeTutor($this->editingTutorId);
+        }
 
+        $this->showFlashMessage('Successfully assigned!');
+
+        $this->cancelStudentEdit();
     }
 
     // When search-box is updated, pagination will be reset
