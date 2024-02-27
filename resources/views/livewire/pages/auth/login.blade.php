@@ -21,7 +21,13 @@ new #[Layout('layouts.guest')] class extends Component
 
         Session::regenerate();
 
-        $this->redirectIntended(default: RouteServiceProvider::HOME, navigate: true);
+        $redirectTo = RouteServiceProvider::HOME;
+
+        if (auth()->user()->role->name == 'admin') {
+            $redirectTo = '/allocation';
+        }
+
+        $this->redirectIntended($redirectTo, navigate: true);
     }
 }; ?>
 
