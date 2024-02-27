@@ -16,20 +16,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', '/login');
 
-//Route::get('/etutor', [AllocationController::class, 'index'])->name('etutor');
-//Route::get('/etutor/allocation', [AllocationController::class, 'index']);
+Route::middleware(['auth','role:tutor,student'])->get('/dashboard', [AllocationController::class, 'dashboard'])->name('dashboard');
 
-Route::middleware(['auth', 'verified'])->get('/dashboard', [AllocationController::class, 'dashboard'])->name('dashboard');
-
-Route::middleware(['auth', 'verified'])->get('/allocation', [AllocationController::class, 'allocation'])->name('allocation');
-
-// Route::middleware(['auth'])->prefix('etutor')->group(function () {
-
-// });
-
-// Route::view('dashboard', 'dashboard')
-//     ->middleware(['auth', 'verified'])
-//     ->name('dashboard');
+Route::middleware(['auth','role:admin'])->get('/allocation', [AllocationController::class, 'allocation'])->name('allocation');
 
 Route::view('profile', 'profile')
     ->middleware(['auth'])
