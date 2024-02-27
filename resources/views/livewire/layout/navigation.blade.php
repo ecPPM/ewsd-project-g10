@@ -30,13 +30,17 @@ new class extends Component
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    @if (auth()->user()->role->name == 'tutor' || auth()->user()->role->name == 'student')
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" wire:navigate>
                         {{ __('Dashboard') }}
                     </x-nav-link>
+                    @endif
 
+                    @if (auth()->user()->role->name == 'admin')
                     <x-nav-link :href="route('allocation')" :active="request()->is('allocation')" wire:navigate>
                         {{ __('Allocation') }}
                     </x-nav-link>
+                    @endif
                 </div>
             </div>
 
@@ -85,12 +89,17 @@ new class extends Component
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
+            @if (auth()->user()->role->name == 'tutor' || auth()->user()->role->name == 'student')
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" wire:navigate>
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+            @endif
+
+            @if (auth()->user()->role->name == 'admin')
             <x-responsive-nav-link :href="route('allocation')" :active="request()->routeIs('allocation')" wire:navigate>
                 {{ __('Allocation') }}
             </x-responsive-nav-link>
+            @endif
         </div>
 
         <!-- Responsive Settings Options -->
