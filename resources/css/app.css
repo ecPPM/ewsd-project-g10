@@ -1,3 +1,44 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.main-container {
+    @apply w-full flex flex-col gap-8 px-4 sm:px-12 mt-8;
+}
+
+.main-title {
+    @apply text-[28px] font-bold text-base-content tracking-tight;
+}
+
+table.app-table {
+    @apply w-full border-collapse;
+}
+
+table.app-table th {
+    @apply text-sm text-base-content/60 py-4;
+}
+
+table.app-table td {
+    @apply text-sm text-base-content py-3 border-b border-t border-b-slate-500 border-opacity-20;
+}
+
+table.app-table th:not(.action),
+table.app-table td:not(.action) {
+    @apply px-2
+}
+
+ul.app-list {
+    @apply w-full flex flex-col;
+}
+
+ul.app-list li {
+    @apply w-full flex items-center leading-[40px];
+}
+
+ul.app-list li > label {
+    @apply w-[175px] leading-[40px] text-base-content/50;
+}
+
+ul.app-list li > span {
+    @apply flex-1 text-base-content;
+}

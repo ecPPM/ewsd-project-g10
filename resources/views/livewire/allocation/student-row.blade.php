@@ -1,4 +1,4 @@
-<tr wire:key="{{ $user->id }}" class="border-b border-gray-200 hover:bg-gray-100">
+<tr wire:key="{{ $user->id }}" class="border-b border-gray-200 hover:bg-base-100">
     <td class="py-3 px-3 text-left">
         @include('livewire.allocation.student-row-student-cell')
 
