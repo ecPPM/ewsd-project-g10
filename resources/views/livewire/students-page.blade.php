@@ -46,9 +46,13 @@
             </div>
 
             @if(count($selectedIds)>0)
-                <div class="flex items-center bg-base-200 py-2 px-4 rounded-full gap-2">
-                    <p class="text-base text-base-content"><span class="font-semibold">{{ count($selectedIds) }}</span>
-                        &nbsp;selected</p>
+                <div class="flex items-center bg-base-200 py-2 px-3 rounded-full gap-2 shadow-sm">
+                    <p class="text-base text-base-content">
+                        <span class="pl-2 font-semibold">
+                            {{ count($selectedIds) }}
+                        </span>
+                        &nbsp;selected
+                    </p>
                     <button wire:click="clearSelection"
                             class="btn btn-sm btn-ghost btn-circle text-base-content">X
                     </button>
@@ -68,10 +72,10 @@
 
             <tbody>
             @foreach($students as $student)
-                <tr class="cursor-pointer hover:bg-base-200">
+                <tr class="cursor-pointer hover:bg-base-200" wire:click="handleRowClick({{$student->id}})">
                     <td class="action pl-3">
                         <input wire:key="{{count($selectedIds)}}" type="checkbox"
-                               wire:change="selectStudent({{ $student->id }})"
+                               wire:click.stop="toggleSelect({{ $student->id }})"
                                class="checkbox checkbox-xs rounded-md checkbox-primary"
                                @if(in_array($student->id, $selectedIds)) checked @endif
                         />
@@ -91,7 +95,7 @@
             </tbody>
         </table>
         <div class="mt-6">
-            {{ $students->links() }}
+            {{ $students->links('vendor.livewire.pagination') }}
         </div>
     </section>
 </div>

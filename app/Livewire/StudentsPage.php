@@ -20,6 +20,11 @@ class StudentsPage extends Component
 
     public $search = "";
 
+    public function handleRowClick($userId)
+    {
+        return redirect()->to('/students/' . $userId);
+    }
+
     public function updatingSearch()
     {
         $this->resetPage();
@@ -35,7 +40,7 @@ class StudentsPage extends Component
         $this->reset('studentIds');
     }
 
-    public function selectStudent($userId): void
+    public function toggleSelect($userId): void
     {
         if (in_array($userId, $this->studentIds)) {
             $this->studentIds = array_diff($this->studentIds, [$userId]);

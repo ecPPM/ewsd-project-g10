@@ -7,7 +7,7 @@
 }
 
 .main-title {
-    @apply text-3xl font-bold text-base-content tracking-tight;
+    @apply text-[28px] font-bold text-base-content tracking-tight;
 }
 
 table.app-table {
@@ -25,4 +25,20 @@ table.app-table td {
 table.app-table th:not(.action),
 table.app-table td:not(.action) {
     @apply px-2
+}
+
+ul.app-list {
+    @apply w-full flex flex-col;
+}
+
+ul.app-list li {
+    @apply w-full flex items-center;
+}
+
+ul.app-list li label {
+    @apply w-[175px] text-base-content/50;
+}
+
+ul.app-list li span {
+    @apply flex-1 text-base-content;
 }

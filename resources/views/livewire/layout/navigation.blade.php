@@ -15,6 +15,9 @@ new class extends Component {
     }
 }; ?>
 
+{{--TODO : Show parent route as active for child routes--}}
+{{--TODO : Fix profile dropdown - currently is missing in web view--}}
+
 <nav x-data="{ open: false }" class="bg-white border-b border-gray-100 sticky top-0 left-0">
     <!-- Primary Navigation Menu -->
     <div class="w-full px-4 sm:px-6 lg:px-12">
@@ -42,7 +45,8 @@ new class extends Component {
                     @endif
 
                     @if (auth()->user()->role->name == 'admin')
-                        <x-nav-link :href="route('students')" :active="request()->is('students')" wire:navigate>
+                        <x-nav-link :href="route('students')"
+                                    :active="request()->is('students')" wire:navigate>
                             {{ __('Students') }}
                         </x-nav-link>
                     @endif
