@@ -4,21 +4,17 @@
         ['href' => route('students-details', $student->id), 'label' => $student->name]
     ]" />
 
-    <h2 class="main-title">Student Dashboard</h2>
+    <h2 class="main-title">{{ $student->name }}</h2>
 
     <section class="w-full max-w-md">
         <ul class="app-list w-full flex flex-col gap-1">
-            <li>
-                <label>Name :</label>
-                <span>{{ $student->name }}</span>
-            </li>
             <li>
                 <label>Email :</label>
                 <span>{{ $student->email }}</span>
             </li>
             <li>
-                <label>Registered Date :</label>
-                <span>{{ $student->created_at->format('d M Y') }}</span>
+                <label>Last Login :</label>
+                <span>{{ $student->last_logged_in ? $student->last_logged_in->format('d/m/Y h:m') : "Never" }}</span>
             </li>
             <li>
                 <label>Tutor Name :</label>
@@ -42,8 +38,8 @@
             </li>
         </ul>
     </section>
+
     <section class="w-full h-[300px] flex justify-center items-center">
-        <h2 class="text-primary font-bold text-lg">Dashboard for each student will be displayed here. (For admin
-            user)</h2>
+        <h2 class="text-primary font-bold text-lg">Dashboard for each student will be displayed here.</h2>
     </section>
 </div>

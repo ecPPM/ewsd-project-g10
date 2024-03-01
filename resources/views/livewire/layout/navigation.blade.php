@@ -30,7 +30,7 @@ new class extends Component {
                 </div>
 
                 <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                <div class="hidden space-x-6 sm:-my-px sm:ms-10 sm:flex">
                     @if (auth()->user()->role->name == 'tutor' || auth()->user()->role->name == 'student')
                         <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" wire:navigate>
                             {{ __('Dashboard') }}
@@ -46,8 +46,17 @@ new class extends Component {
 
                     @if (auth()->user()->role->name == 'admin')
                         <x-nav-link :href="route('students')"
-                                    :active="request()->routeIs('students')" wire:navigate>
+                                    :active="request()->routeIs('students') || request()->routeIs('students-details')"
+                                    wire:navigate>
                             {{ __('Students') }}
+                        </x-nav-link>
+                    @endif
+
+                    @if (auth()->user()->role->name == 'admin')
+                        <x-nav-link :href="route('tutors')"
+                                    :active="request()->routeIs('tutors') || request()->routeIs('tutor-details')"
+                                    wire:navigate>
+                            {{ __('Tutors') }}
                         </x-nav-link>
                     @endif
                 </div>
@@ -144,6 +153,13 @@ new class extends Component {
                 <x-responsive-nav-link :href="route('students')" :active="request()->routeIs('students')"
                                        wire:navigate>
                     {{ __('Students') }}
+                </x-responsive-nav-link>
+            @endif
+
+            @if (auth()->user()->role->name == 'admin')
+                <x-responsive-nav-link :href="route('tutors')" :active="request()->routeIs('tutors')"
+                                       wire:navigate>
+                    {{ __('Tutors') }}
                 </x-responsive-nav-link>
             @endif
         </div>

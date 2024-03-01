@@ -69,6 +69,7 @@
                 <th>Email</th>
                 <th>Tutor Name</th>
                 <th>Registered Date</th>
+                <th>Last Login</th>
             </tr>
             </thead>
 
@@ -93,7 +94,8 @@
                             —
                         @endif
                     </td>
-                    <td>{{ $student->created_at->format('d M Y') }}</td>
+                    <td>{{ $student->created_at->format('d/m/Y h:m') }}</td>
+                    <td>{{$student->last_logged_in ? $student->last_logged_in->format('d/m/Y h:m') : "Never"}}</td>
                 </tr>
             @endforeach
             </tbody>

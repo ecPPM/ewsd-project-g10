@@ -14,7 +14,7 @@
     <ul>
         @foreach($links as $link)
             @if ($loop->last)
-                <li>{{$link["label"]}}</li>
+                <li class="font-semibold">{{$link["label"]}}</li>
             @else
                 <li><a href="{{$link["href"]}}">{{$link["label"]}}</a></li>
             @endif

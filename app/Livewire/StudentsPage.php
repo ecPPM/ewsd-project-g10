@@ -2,11 +2,9 @@
 
 namespace App\Livewire;
 
-use Livewire\WithPagination;
-
 use App\Models\User;
 use Livewire\Component;
-use function Symfony\Component\Translation\t;
+use Livewire\WithPagination;
 
 class StudentsPage extends Component
 {

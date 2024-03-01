@@ -7,7 +7,7 @@
 }
 
 .main-title {
-    @apply text-[28px] font-bold text-base-content tracking-tight;
+    @apply text-3xl font-bold text-base-content;
 }
 
 table.app-table {
@@ -24,7 +24,7 @@ table.app-table td {
 
 table.app-table th:not(.action),
 table.app-table td:not(.action) {
-    @apply px-2
+    @apply px-6
 }
 
 ul.app-list {
