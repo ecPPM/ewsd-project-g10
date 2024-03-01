@@ -24,7 +24,9 @@
                             <option value="{{$tutor->id}}">{{ $tutor->name }}</option>
                         @endforeach
                     </select>
-                    <button class="btn btn-primary self-end" wire:click.prevent="bulkAllocate">Assign</button>
+                    <button class="btn btn-primary self-end" wire:click.prevent="bulkAllocate"
+                            @if($assignedTutorId === "default") disabled @endif>Assign
+                    </button>
                 </div>
             </div>
         </dialog>
@@ -74,11 +76,13 @@
             @foreach($students as $student)
                 <tr class="cursor-pointer hover:bg-base-200" wire:click="handleRowClick({{$student->id}})">
                     <td class="action pl-3">
-                        <input wire:key="{{count($selectedIds)}}" type="checkbox"
-                               wire:click.stop="toggleSelect({{ $student->id }})"
-                               class="checkbox checkbox-xs rounded-md checkbox-primary"
-                               @if(in_array($student->id, $selectedIds)) checked @endif
-                        />
+                        <label>
+                            <input wire:key="{{count($selectedIds)}}" type="checkbox"
+                                   wire:click.stop="toggleSelect({{ $student->id }})"
+                                   class="checkbox checkbox-xs rounded-md checkbox-primary"
+                                   @if(in_array($student->id, $selectedIds)) checked @endif
+                            />
+                        </label>
                     </td>
                     <td>{{ $student->name }}</td>
                     <td>{{ $student->email }}</td>

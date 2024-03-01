@@ -60,6 +60,15 @@ class StudentsPage extends Component
         $this->reset('studentIds', 'assignedTutorId', 'search', 'modalOpen');
     }
 
+    public function toggleSelectAll()
+    {
+        if (count($this->studentIds) === count(User::where('role_id', 3)->get())) {
+            $this->studentIds = [];
+        } else {
+            $this->studentIds = User::where('role_id', 3)->pluck('id')->toArray();
+        }
+    }
+
 
     public function render()
     {

@@ -32,13 +32,13 @@ ul.app-list {
 }
 
 ul.app-list li {
-    @apply w-full flex items-center;
+    @apply w-full flex items-center leading-[40px];
 }
 
-ul.app-list li label {
-    @apply w-[175px] text-base-content/50;
+ul.app-list li > label {
+    @apply w-[175px] leading-[40px] text-base-content/50;
 }
 
-ul.app-list li span {
+ul.app-list li > span {
     @apply flex-1 text-base-content;
 }
