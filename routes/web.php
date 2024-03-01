@@ -16,12 +16,14 @@ use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', '/login');
 
-Route::middleware(['auth','role:tutor,student'])->get('/dashboard', [AllocationController::class, 'dashboard'])->name('dashboard');
+Route::view('/students', 'students')->middleware(['auth', 'role:admin'])->name('students');
 
-Route::middleware(['auth','role:admin'])->get('/allocation', [AllocationController::class, 'allocation'])->name('allocation');
+Route::middleware(['auth', 'role:tutor,student'])->get('/dashboard', [AllocationController::class, 'dashboard'])->name('dashboard');
+
+Route::middleware(['auth', 'role:admin'])->get('/allocation', [AllocationController::class, 'allocation'])->name('allocation');
 
 Route::view('profile', 'profile')
     ->middleware(['auth'])
     ->name('profile');
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

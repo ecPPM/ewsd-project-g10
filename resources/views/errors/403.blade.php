@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -15,7 +14,7 @@
             box-sizing: border-box;
         }
 
-        .bg-gray-100 {
+        .bg-base-100 {
             background-color: #f3f4f6;
         }
 
@@ -129,19 +128,19 @@
     </style>
 </head>
 
-<body class="bg-gray-100 dark:bg-gray-900">
-    <div class="relative flex items-top justify-center min-h-screen">
-        <div class="max-w-xl mx-auto sm:px-6 lg:px-8">
-            <div class="flex items-center pt-8 sm:justify-start sm:pt-0">
-                <div class="px-4 text-lg text-gray-500 border-r border-gray-400 tracking-wider error-number">
-                    403
-                </div>
-                <div class="ml-4 text-lg text-gray-500 uppercase tracking-wider error-message">
-                    Forbidden
-                </div>
+<body class="bg-base-100 dark:bg-gray-900">
+<div class="relative flex items-top justify-center min-h-screen">
+    <div class="max-w-xl mx-auto sm:px-6 lg:px-8">
+        <div class="flex items-center pt-8 sm:justify-start sm:pt-0">
+            <div class="px-4 text-lg text-gray-500 border-r border-gray-400 tracking-wider error-number">
+                403
+            </div>
+            <div class="ml-4 text-lg text-gray-500 uppercase tracking-wider error-message">
+                Forbidden
             </div>
         </div>
     </div>
+</div>
 </body>
 
 </html>
