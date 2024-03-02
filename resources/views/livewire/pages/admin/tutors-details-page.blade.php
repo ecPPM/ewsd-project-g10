@@ -52,8 +52,8 @@
                 </tbody>
             </table>
         </div>
-        {{--        <div class="mt-6">--}}
-        {{--            {{ $assignedStudents->links('vendor.livewire.pagination') }}--}}
-        {{--        </div>--}}
+        <div class="">
+            {{ $assignedStudents->links('vendor.livewire.pagination') }}
+        </div>
     </section>
 </div>

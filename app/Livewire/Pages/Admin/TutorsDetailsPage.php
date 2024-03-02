@@ -20,8 +20,8 @@ class TutorsDetailsPage extends Component
     public function render()
     {
         $tutor = User::where('id', $this->tutorId)->first();
-        $tutor->studentCount = $tutor->students->count();
-        $assignedStudents = $tutor->students;
+        $tutor->studentCount = $tutor->activeStudents()->count();
+        $assignedStudents = $tutor->activeStudents()->paginate(10);
         return view('livewire.pages.admin.tutors-details-page', [
             'tutor' => $tutor,
             'assignedStudents' => $assignedStudents,

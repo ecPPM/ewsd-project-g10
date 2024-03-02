@@ -28,7 +28,7 @@ class TutorsPage extends Component
         $tutors = User::where('role_id', 2)->where('name', 'like', "%{$this->search}%")->paginate(10);
 
         foreach ($tutors as $tutor) {
-            $tutor->studentCount = $tutor->students->count();
+            $tutor->studentCount = $tutor->activeStudents()->count();
         }
 
         return view('livewire.pages.admin.tutors-page', [

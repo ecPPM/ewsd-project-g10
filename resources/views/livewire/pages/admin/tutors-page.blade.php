@@ -32,7 +32,8 @@
 
                 <tbody>
                 @foreach($tutors as $tutor)
-                    <tr title="Click to see details about this user" class="cursor-pointer hover:bg-base-200"
+                    <tr wire:key="{{$tutor->id.$tutor->studentCount}}" title="Click to see details about this user"
+                        class="cursor-pointer hover:bg-base-200"
                         wire:click="handleRowClick({{$tutor->id}})">
                         <td>{{ $tutor->name }}</td>
                         <td>{{ $tutor->email }}</td>

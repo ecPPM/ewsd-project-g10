@@ -66,7 +66,7 @@ class User extends Authenticatable
 
     public function activeStudents()
     {
-        return $this->students()->wherePivot('is_current', true)->get();
+        return $this->students()->wherePivot('is_current', true);
     }
 
     public function assignOrChangeTutor($tutorId)
@@ -79,8 +79,7 @@ class User extends Authenticatable
                 return false;
             }
             $this->tutors()->updateExistingPivot($existingTutor->id, ['is_current' => false, 'updated_at' => now()]);
-        }
-        else {
+        } else {
             $this->tutors()->wherePivot('tutor_id', '=', null)->detach();
         }
 
