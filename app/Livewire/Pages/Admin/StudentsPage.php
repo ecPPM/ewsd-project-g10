@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Pages\Admin;
 
 use App\Models\User;
 use Livewire\Component;
@@ -73,7 +73,7 @@ class StudentsPage extends Component
         $students = User::where('role_id', 3)->where('name', 'like', "%{$this->search}%")->paginate(10);
         $tutors = User::where('role_id', 2)->get();
 
-        return view('livewire.students-page', [
+        return view('livewire.pages.admin.students-page', [
             'students' => $students,
             'tutors' => $tutors,
             'selectedIds' => $this->studentIds,

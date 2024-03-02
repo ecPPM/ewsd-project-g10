@@ -1,8 +1,7 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AllocationController;
-use App\Http\Controllers\StudentsController;
-use App\Http\Controllers\TutorsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -43,17 +42,17 @@ Route::view('profile', 'profile')
 */
 Route::middleware(['auth', 'role:admin'])->get('/allocation', [AllocationController::class, 'allocation'])->name('allocation');
 
-Route::middleware(['auth', 'role:admin'])->get('/students', [StudentsController::class, 'students'])->name('students');
+Route::middleware(['auth', 'role:admin'])->get('/students', [AdminController::class, 'students'])->name('students');
 
-Route::middleware(['auth', 'role:admin'])->get('/students/{id}', [StudentsController::class, 'studentDetails'])->name('students-details');
+Route::middleware(['auth', 'role:admin'])->get('/students/{id}', [AdminController::class, 'studentDetails'])->name('students-details');
 
-Route::middleware(['auth', 'role:admin'])->get('/tutors', [TutorsController::class, 'tutors'])->name('tutors');
+Route::middleware(['auth', 'role:admin'])->get('/tutors', [AdminController::class, 'tutors'])->name('tutors');
 
-Route::middleware(['auth', 'role:admin'])->get('/tutors/{id}', [TutorsController::class, 'tutorDetails'])->name('tutor-details');
+Route::middleware(['auth', 'role:admin'])->get('/tutors', [AdminController::class, 'tutors'])->name('tutors');
 
-Route::view("reports", "reports")
-    ->middleware(['auth', 'role:admin'])
-    ->name('reports');
+Route::middleware(['auth', 'role:admin'])->get('/tutors/{id}', [AdminController::class, 'tutorDetails'])->name('tutor-details');
+
+Route::middleware(['auth', 'role:admin'])->get('/reports', [AdminController::class, 'reports'])->name('reports');
 
 /*
 |--------------------------------------------------------------------------

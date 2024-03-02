@@ -1,5 +1,5 @@
 <x-app-layout>
     <div class="">
-        @livewire('reports-page')
+        @livewire('pages.admin.reports-page')
     </div>
 </x-app-layout>

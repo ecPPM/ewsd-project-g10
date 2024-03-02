@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Pages\Admin;
 
 use App\Models\User;
 use Livewire\Component;
@@ -22,7 +22,7 @@ class TutorsDetailsPage extends Component
         $tutor = User::where('id', $this->tutorId)->first();
         $tutor->studentCount = $tutor->students->count();
         $assignedStudents = $tutor->students;
-        return view('livewire.tutors-details-page', [
+        return view('livewire.pages.admin.tutors-details-page', [
             'tutor' => $tutor,
             'assignedStudents' => $assignedStudents,
         ]);

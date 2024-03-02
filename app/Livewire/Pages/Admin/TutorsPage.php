@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Pages\Admin;
 
 use App\Models\User;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -32,7 +31,7 @@ class TutorsPage extends Component
             $tutor->studentCount = $tutor->students->count();
         }
 
-        return view('livewire.tutors-page', [
+        return view('livewire.pages.admin.tutors-page', [
             'tutors' => $tutors,
         ]);
     }
