@@ -16,7 +16,7 @@
                 <button wire:click="toggleModal" class="btn btn-sm btn-circle btn-ghost absolute top-2 right-2">✕
                 </button>
                 <div class="flex flex-col gap-6">
-                    <label for="select-tutor" class="font-bold text-lg">Bulk Allocation!</label>
+                    <label for="select-tutor" class="font-bold text-lg">Allocation</label>
                     <select wire:model.live="assignedTutorId" id="select-tutor"
                             class="w-full select select-primary">
                         <option value="default" disabled selected>Select Tutor Name</option>
@@ -70,12 +70,14 @@
                 <th>Tutor Name</th>
                 <th>Registered Date</th>
                 <th>Last Login</th>
+                <th class="action"></th>
             </tr>
             </thead>
 
             <tbody>
             @foreach($students as $student)
-                <tr class="cursor-pointer hover:bg-base-200" wire:click="handleRowClick({{$student->id}})">
+                <tr title="Click to see details about this user" class="cursor-pointer hover:bg-base-200"
+                    wire:click="handleRowClick({{$student->id}})">
                     <td class="action pl-3">
                         <label>
                             <input wire:key="{{count($selectedIds)}}" type="checkbox"
@@ -96,6 +98,16 @@
                     </td>
                     <td>{{ $student->created_at->format('d/m/Y h:m') }}</td>
                     <td>{{$student->last_logged_in ? $student->last_logged_in->format('d/m/Y h:m') : "Never"}}</td>
+                    <td class="action pr-2">
+                        <div class="w-2 h-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
+                                <!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                                <path
+                                    d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"
+                                    fill="#676767" />
+                            </svg>
+                        </div>
+                    </td>
                 </tr>
             @endforeach
             </tbody>

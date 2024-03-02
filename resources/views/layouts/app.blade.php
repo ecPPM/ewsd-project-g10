@@ -31,6 +31,13 @@
     <main>
         {{ $slot }}
     </main>
+
+    <!--    Footer -->
+    <footer class="footer footer-center p-4 bg-base-100 mt-16 mb-8 text-base-content">
+        <aside>
+            <p>Copyright © 2024 - All right reserved by EWSD GP10</p>
+        </aside>
+    </footer>
 </div>
 </body>
 </html>

@@ -26,17 +26,29 @@
                 <th>Assigned Students</th>
                 {{--                <th>Registered Date</th>--}}
                 <th>Last Login</th>
+                <th class="action"></th>
             </tr>
             </thead>
 
             <tbody>
             @foreach($tutors as $tutor)
-                <tr class="cursor-pointer hover:bg-base-200" wire:click="handleRowClick({{$tutor->id}})">
+                <tr title="Click to see details about this user" class="cursor-pointer hover:bg-base-200"
+                    wire:click="handleRowClick({{$tutor->id}})">
                     <td>{{ $tutor->name }}</td>
                     <td>{{ $tutor->email }}</td>
                     <td>{{$tutor->studentCount}}</td>
                     {{--                    <td>{{ $tutor->created_at->format('d M Y') }}</td>--}}
                     <td>{{ $tutor->last_login_at ? $tutor->last_login_at->format('d/M/Y h:m') : 'Never' }}</td>
+                    <td class="action pr-2">
+                        <div class="w-2 h-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
+                                <!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                                <path
+                                    d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"
+                                    fill="#676767" />
+                            </svg>
+                        </div>
+                    </td>
                 </tr>
             @endforeach
             </tbody>

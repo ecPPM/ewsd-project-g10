@@ -23,10 +23,10 @@
         <h2 class="text-primary font-bold text-lg">Dashboard for each tutor will be displayed here</h2>
     </section>
 
-    <section class="w-full mb-16 flex flex-col gap-4">
+    <section class="w-full flex flex-col gap-4">
         <h2 class="text-2xl font-semibold text-base-content">
             <span>Assigned Students</span>
-            <span class="text-base-content/60">({{$tutor->studentCount}})</span>
+            <span class="text-base-content/50 text-xl leading-[2rem]">({{$tutor->studentCount}})</span>
         </h2>
         <table class="app-table">
             <thead>

@@ -15,8 +15,6 @@ new class extends Component {
     }
 }; ?>
 
-{{--TODO : Show parent route as active for child routes--}}
-
 <nav x-data="{ open: false }" class="bg-base-100 border-b border-base-content/10 sticky top-0 left-0 z-50">
     <!-- Primary Navigation Menu -->
     <div class="w-full px-4 sm:px-6 lg:px-12">
@@ -37,28 +35,32 @@ new class extends Component {
                         </x-nav-link>
                     @endif
 
+                    {{-- ADMIN ROUTES --}}
                     @if (auth()->user()->role->name == 'admin')
-                        <x-nav-link :href="route('allocation')" :active="request()->routeIs('allocation')"
-                                    wire:navigate>
-                            {{ __('Allocation') }}
-                        </x-nav-link>
-                    @endif
+                        {{--                        <x-nav-link :href="route('allocation')" :active="request()->routeIs('allocation')"--}}
+                        {{--                                    wire:navigate>--}}
+                        {{--                            {{ __('Allocation') }}--}}
+                        {{--                        </x-nav-link>--}}
 
-                    @if (auth()->user()->role->name == 'admin')
                         <x-nav-link :href="route('students')"
                                     :active="request()->routeIs('students') || request()->routeIs('students-details')"
                                     wire:navigate>
                             {{ __('Students') }}
                         </x-nav-link>
-                    @endif
 
-                    @if (auth()->user()->role->name == 'admin')
                         <x-nav-link :href="route('tutors')"
                                     :active="request()->routeIs('tutors') || request()->routeIs('tutor-details')"
                                     wire:navigate>
                             {{ __('Tutors') }}
                         </x-nav-link>
+
+                        <x-nav-link :href="route('reports')"
+                                    :active="request()->routeIs('reports')"
+                                    wire:navigate>
+                            {{ __('Reports') }}
+                        </x-nav-link>
                     @endif
+                    {{-- ADMIN ROUTES END --}}
                 </div>
             </div>
 
@@ -69,7 +71,9 @@ new class extends Component {
                         <button
                             class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
                             <div class="uppercase" x-data="{{ json_encode(['name' => auth()->user()->name]) }}"
-                                 x-text="name" x-on:profile-updated.window="name = $event.detail.name"></div>
+                                 x-text="name" x-on:profile-updated.window="name = $event.detail.name">
+
+                            </div>
 
                             <div class="ms-1">
                                 <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"
@@ -142,24 +146,25 @@ new class extends Component {
                 </x-responsive-nav-link>
             @endif
 
-            @if (auth()->user()->role->name == 'admin')
-                <x-responsive-nav-link :href="route('allocation')" :active="request()->routeIs('allocation')"
-                                       wire:navigate>
-                    {{ __('Allocation') }}
-                </x-responsive-nav-link>
-            @endif
+            @if (auth()->user()->role->name === 'admin')
+                {{--                <x-responsive-nav-link :href="route('allocation')" :active="request()->routeIs('allocation')"--}}
+                {{--                                       wire:navigate>--}}
+                {{--                    {{ __('Allocation') }}--}}
+                {{--                </x-responsive-nav-link>--}}
 
-            @if (auth()->user()->role->name == 'admin')
                 <x-responsive-nav-link :href="route('students')" :active="request()->routeIs('students')"
                                        wire:navigate>
                     {{ __('Students') }}
                 </x-responsive-nav-link>
-            @endif
 
-            @if (auth()->user()->role->name == 'admin')
                 <x-responsive-nav-link :href="route('tutors')" :active="request()->routeIs('tutors')"
                                        wire:navigate>
                     {{ __('Tutors') }}
+                </x-responsive-nav-link>
+
+                <x-responsive-nav-link :href="route('reports')" :active="request()->routeIs('reports')"
+                                       wire:navigate>
+                    {{ __('Reports') }}
                 </x-responsive-nav-link>
             @endif
         </div>

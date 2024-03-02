@@ -51,6 +51,10 @@ Route::middleware(['auth', 'role:admin'])->get('/tutors', [TutorsController::cla
 
 Route::middleware(['auth', 'role:admin'])->get('/tutors/{id}', [TutorsController::class, 'tutorDetails'])->name('tutor-details');
 
+Route::view("reports", "reports")
+    ->middleware(['auth', 'role:admin'])
+    ->name('reports');
+
 /*
 |--------------------------------------------------------------------------
 | Students Routes
