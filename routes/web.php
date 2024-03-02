@@ -1,7 +1,7 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AllocationController;
-use App\Http\Controllers\StudentsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,26 +15,62 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+/*
+|--------------------------------------------------------------------------
+| Public Routes
+|--------------------------------------------------------------------------
+*/
+
 Route::redirect('/', '/login');
 
-//Route::view('/students', 'students')->middleware(['auth', 'role:admin'])->name('students');
 
-Route::middleware(['auth', 'role:admin'])->get('/students', [StudentsController::class, 'students'])->name('students');
-
-Route::middleware(['auth', 'role:admin'])->get('/students/{id}', [StudentsController::class, 'studentDetails'])->name('students-details');
-
-
-//Route::view('/students/{studentId}', 'students-details')->middleware(['auth', 'role:admin'])->name('students-detail');
-
+/*
+|--------------------------------------------------------------------------
+| Common Routes
+|--------------------------------------------------------------------------
+*/
 Route::middleware(['auth', 'role:tutor,student'])->get('/dashboard', [AllocationController::class, 'dashboard'])->name('dashboard');
-
-
-Route::middleware(['auth', 'role:tutor,student'])->get('/dashboard', [AllocationController::class, 'dashboard'])->name('dashboard');
-
-Route::middleware(['auth', 'role:admin'])->get('/allocation', [AllocationController::class, 'allocation'])->name('allocation');
 
 Route::view('profile', 'profile')
     ->middleware(['auth'])
     ->name('profile');
+
+/*
+|--------------------------------------------------------------------------
+| Admin Routes
+|--------------------------------------------------------------------------
+*/
+Route::middleware(['auth', 'role:admin'])->get('/allocation', [AllocationController::class, 'allocation'])->name('allocation');
+
+Route::middleware(['auth', 'role:admin'])->get('/students', [AdminController::class, 'students'])->name('students');
+
+Route::middleware(['auth', 'role:admin'])->get('/students/{id}', [AdminController::class, 'studentDetails'])->name('students-details');
+
+Route::middleware(['auth', 'role:admin'])->get('/tutors', [AdminController::class, 'tutors'])->name('tutors');
+
+Route::middleware(['auth', 'role:admin'])->get('/tutors', [AdminController::class, 'tutors'])->name('tutors');
+
+Route::middleware(['auth', 'role:admin'])->get('/tutors/{id}', [AdminController::class, 'tutorDetails'])->name('tutor-details');
+
+Route::middleware(['auth', 'role:admin'])->get('/reports', [AdminController::class, 'reports'])->name('reports');
+
+/*
+|--------------------------------------------------------------------------
+| Students Routes
+|--------------------------------------------------------------------------
+|
+| Will be added here
+|
+*/
+
+/*
+|--------------------------------------------------------------------------
+| Tutors Routes
+|--------------------------------------------------------------------------
+|
+| Will be added here
+|
+*/
+
 
 require __DIR__ . '/auth.php';

@@ -1,4 +1,3 @@
-import defaultTheme from "tailwindcss/defaultTheme";
 import forms from "@tailwindcss/forms";
 
 /** @type {import("tailwindcss").Config} */
@@ -9,8 +8,22 @@ export default {
         "./resources/views/**/*.blade.php",
     ],
     daisyui: {
-        themes: ["light", "winter", "dark"],
+        themes: [
+            {
+                appTheme: {
+                    ...require("daisyui/src/theming/themes")["winter"],
+                    // See default theme colors -> node_modules/daisyui/src/theming/themes.js
+                    // Custom theme colors here
+                    // primary: "",
+                    // secondary: "",
+                    // accent: "",
+                    // neutral: "",
+                    // "base-100": "",
+                },
+            },
+        ],
     },
+    // Note: Not sure about commenting out the original theme object
     // theme: {
     //     extend: {
     //         fontFamily: {
@@ -18,6 +31,5 @@ export default {
     //         },
     //     },
     // },
-
     plugins: [forms, require("daisyui")],
 };

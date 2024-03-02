@@ -3,15 +3,15 @@
 @tailwind utilities;
 
 .main-container {
-    @apply w-full flex flex-col gap-8 px-4 sm:px-12 mt-8;
+    @apply w-full flex flex-col gap-8 px-4 lg:px-12 mt-8 overflow-hidden;
 }
 
 .main-title {
-    @apply text-[28px] font-bold text-base-content tracking-tight;
+    @apply text-2xl sm:text-3xl font-bold text-base-content;
 }
 
 table.app-table {
-    @apply w-full border-collapse;
+    @apply w-full border-collapse overflow-x-scroll;
 }
 
 table.app-table th {
@@ -24,7 +24,7 @@ table.app-table td {
 
 table.app-table th:not(.action),
 table.app-table td:not(.action) {
-    @apply px-2
+    @apply px-6 whitespace-nowrap
 }
 
 ul.app-list {

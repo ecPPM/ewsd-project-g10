@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Pages\Admin;
 
 use App\Models\User;
 use Livewire\Component;
@@ -19,6 +19,6 @@ class StudentDetailsPage extends Component
     public function render()
     {
         $student = User::where('id', $this->studentId)->first();
-        return view('livewire.student-details-page', ['student' => $student]);
+        return view('livewire.pages.admin.student-details-page', ['student' => $student]);
     }
 }

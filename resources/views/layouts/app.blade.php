@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-theme="winter">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-theme="appTheme">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -31,6 +31,13 @@
     <main>
         {{ $slot }}
     </main>
+
+    <!--    Footer -->
+    <footer class="footer footer-center p-4 bg-base-100 mt-16 mb-8 text-base-content/50">
+        <aside>
+            <p class="text-xs md:text-sm">Copyright © 2024 - All right reserved by EWSD GP10</p>
+        </aside>
+    </footer>
 </div>
 </body>
 </html>
