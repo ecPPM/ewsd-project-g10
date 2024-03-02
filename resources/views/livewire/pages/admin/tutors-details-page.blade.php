@@ -24,31 +24,34 @@
     </section>
 
     <section class="w-full flex flex-col gap-4">
-        <h2 class="text-2xl font-semibold text-base-content">
+        <h2 class="text-xl md:text-2xl font-semibold text-base-content">
             <span>Assigned Students</span>
             <span class="text-base-content/50 text-xl leading-[2rem]">({{$tutor->studentCount}})</span>
         </h2>
-        <table class="app-table">
-            <thead>
-            <tr class="text-left">
-                <th>Name</th>
-                <th>Email</th>
-                <th>Registered Date</th>
-                <th>Last Login</th>
-            </tr>
-            </thead>
 
-            <tbody>
-            @foreach($assignedStudents as $student)
-                <tr class="hover:bg-base-200">
-                    <td>{{ $student->name }}</td>
-                    <td>{{ $student->email }}</td>
-                    <td>{{ $student->created_at->format('d M Y') }}</td>
-                    <td>{{ $student->last_login_at ? $tutor->last_login_at->format('d/M/Y h:m') : 'Never' }}</td>
+        <div class="w-full overflow-x-scroll">
+            <table class="app-table">
+                <thead>
+                <tr class="text-left">
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Registered Date</th>
+                    <th>Last Login</th>
                 </tr>
-            @endforeach
-            </tbody>
-        </table>
+                </thead>
+
+                <tbody>
+                @foreach($assignedStudents as $student)
+                    <tr class="hover:bg-base-200">
+                        <td>{{ $student->name }}</td>
+                        <td>{{ $student->email }}</td>
+                        <td>{{ $student->created_at->format('d M Y') }}</td>
+                        <td>{{ $student->last_login_at ? $tutor->last_login_at->format('d/M/Y h:m') : 'Never' }}</td>
+                    </tr>
+                @endforeach
+                </tbody>
+            </table>
+        </div>
         {{--        <div class="mt-6">--}}
         {{--            {{ $assignedStudents->links('vendor.livewire.pagination') }}--}}
         {{--        </div>--}}

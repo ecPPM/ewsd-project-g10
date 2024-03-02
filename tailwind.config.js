@@ -10,15 +10,15 @@ export default {
     daisyui: {
         themes: [
             {
-                winter: {
+                appTheme: {
                     ...require("daisyui/src/theming/themes")["winter"],
-                    // Default colors for winter theme from here -> node_modules/daisyui/src/theming/themes.js
-                    // Can change these colors to our liking
-                    // primary: "#0069FF",
-                    // secondary: "#463AA2",
-                    // accent: "#C148AC",
-                    // neutral: "#021431",
-                    // "base-100": "#FFFFFF",
+                    // See default theme colors -> node_modules/daisyui/src/theming/themes.js
+                    // Custom theme colors here
+                    // primary: "",
+                    // secondary: "",
+                    // accent: "",
+                    // neutral: "",
+                    // "base-100": "",
                 },
             },
         ],
