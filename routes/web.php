@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AllocationController;
+use App\Http\Controllers\MeetingController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -31,16 +32,16 @@ Route::redirect('/', '/login');
 */
 Route::middleware(['auth', 'role:tutor,student'])->get('/dashboard', [AllocationController::class, 'dashboard'])->name('dashboard');
 
-Route::view('profile', 'profile')
-    ->middleware(['auth'])
-    ->name('profile');
+//Route::view('profile', 'profile')->middleware(['auth'])->name('profile');
+
+Route::middleware(['auth', 'role:tutor,student'])->get('/meetings', [MeetingController::class, 'meetings'])->name('meetings');
 
 /*
 |--------------------------------------------------------------------------
 | Admin Routes
 |--------------------------------------------------------------------------
 */
-Route::middleware(['auth', 'role:admin'])->get('/allocation', [AllocationController::class, 'allocation'])->name('allocation');
+//Route::middleware(['auth', 'role:admin'])->get('/allocation', [AllocationController::class, 'allocation'])->name('allocation');
 
 Route::middleware(['auth', 'role:admin'])->get('/students', [AdminController::class, 'students'])->name('students');
 

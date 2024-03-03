@@ -94,4 +94,23 @@ class User extends Authenticatable
 
         return true;
     }
+
+    public function meetings()
+    {
+        if ($this->role_id == 2) {
+            return $this->hasMany(Meeting::class, 'tutor_id');
+        } else {
+            return $this->hasMany(Meeting::class, 'student_id');
+        }
+    }
+
+    public function finishedMeetings()
+    {
+        return $this->meetings()->where('time', '<=', now());
+    }
+
+    public function pendingMeetings()
+    {
+        return $this->meetings()->where('time', '>', now());
+    }
 }
