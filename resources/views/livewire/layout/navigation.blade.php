@@ -33,6 +33,10 @@ new class extends Component {
                         <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" wire:navigate>
                             {{ __('Dashboard') }}
                         </x-nav-link>
+
+                        <x-nav-link :href="route('meetings')" :active="request()->routeIs('meetings')" wire:navigate>
+                            {{ __('Meetings') }}
+                        </x-nav-link>
                     @endif
 
                     {{-- ADMIN ROUTES --}}
@@ -105,6 +109,11 @@ new class extends Component {
                 <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')"
                                        wire:navigate>
                     {{ __('Dashboard') }}
+                </x-responsive-nav-link>
+
+                <x-responsive-nav-link :href="route('meetings')" :active="request()->routeIs('meetings')"
+                    wire:navigate>
+                    {{ __('Meetings') }}
                 </x-responsive-nav-link>
             @endif
 
