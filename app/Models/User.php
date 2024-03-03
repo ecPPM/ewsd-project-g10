@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use App\Http\Controllers\MailController;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -84,6 +86,11 @@ class User extends Authenticatable
         }
 
         $this->tutors()->syncWithoutDetaching([$tutorId => ['is_current' => true, 'created_at' => now(), 'updated_at' => now()]]);
+
+        // Send emails
+        $tutor = User::find($tutorId);
+        $mailController = new MailController();
+        $mailController->sendTutorAssignMails($tutor, $this);
 
         return true;
     }
