@@ -1,5 +1,10 @@
 <x-app-layout>
     <div class="">
-        @livewire('pages.tutor.meetings-page')
+        @if (Auth::user()->role_id == 2)
+            @livewire('pages.tutor.tutor-meetings-page')
+        @else
+            @livewire('pages.student.student-meetings-page')
+        @endif
+
     </div>
 </x-app-layout>
