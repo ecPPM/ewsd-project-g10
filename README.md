@@ -28,6 +28,19 @@ If npm is not installed, install Node.js from the Node.js website.
 
 After installing Node.js, verify that npm is installed correctly by running npm -v in your terminal.
 
+3. composer
+
+To check if composer is installed on your system, run the following command in your terminal:
+   ```sh
+   composer
+   ```
+If composer is not installed,
+
+For MAC, check this out and follow along since manual installation might be complicated. https://youtu.be/ol-YDlEqozE?si=zSjjhBTSj96GZY3H
+
+For Windows, click this link to download composer installation exe file. https://getcomposer.org/Composer-Setup.exe
+
+
 ---
 
 ### First Time Installation
@@ -105,17 +118,18 @@ For the next times, you can follow the steps below in order to run the applicati
    ```sh
    npm install
    ```
-
-   [Run this only when _npm install_ command was run] Compile Assets
-   ```sh
-   npm run dev
-   ```
    
 4. [Only needed when there are changes in database schema] Update migrations
    ```sh
    php artisan migrate
    ```
-5. Serve the Application
+
+5. Compile Assets
+   ```sh
+   npm run dev
+   ```
+   
+6. Open a new terminal and Serve the Application
    ```sh
    php artisan serve
    ```
