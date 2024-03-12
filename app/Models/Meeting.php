@@ -19,6 +19,10 @@ class Meeting extends Model
         'notes',
     ];
 
+    protected $casts = [
+        'time' => 'datetime',
+    ];
+
     public function student()
     {
         return $this->belongsTo(User::class, 'student_id');

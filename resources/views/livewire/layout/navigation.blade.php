@@ -17,8 +17,8 @@ new class extends Component {
 
 <nav x-data="{ open: false }" class="bg-base-100 border-b border-base-content/10 sticky top-0 left-0 z-50">
     <!-- Primary Navigation Menu -->
-    <div class="w-full px-4 sm:px-6 lg:px-12">
-        <div class="flex justify-between h-16">
+    <div class="w-full px-4 sm:px-6 lg:px-16 xl:px-24 2xl:px-36">
+        <div class="flex justify-between h-20">
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
@@ -35,7 +35,7 @@ new class extends Component {
                         </x-nav-link>
 
                         <x-nav-link :href="route('meetings')" :active="request()->routeIs('meetings')" wire:navigate>
-                            {{ __('Meetings') }}
+                            {{ __('Scheduling') }}
                         </x-nav-link>
                     @endif
 
@@ -71,7 +71,7 @@ new class extends Component {
             <div class="flex items-center">
                 <!-- User and Logout -->
                 <div class="flex items-center gap-2">
-                    <p class="uppercase text-sm text-gray-600 m-0 p-0 font-semibold">{{auth()->user()->name}}</p>
+                    <p class="uppercase text-gray-600 m-0 p-0 font-semibold">{{auth()->user()->name}}</p>
                     <button title="Logout" class="btn btn-ghost btn-sm" wire:click="logout">
                         <div class="w-3 h-3">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
@@ -113,7 +113,7 @@ new class extends Component {
 
                 <x-responsive-nav-link :href="route('meetings')" :active="request()->routeIs('meetings')"
                     wire:navigate>
-                    {{ __('Meetings') }}
+                    {{ __('Scheduling') }}
                 </x-responsive-nav-link>
             @endif
 
