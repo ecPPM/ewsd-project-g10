@@ -88,7 +88,7 @@
             </label>
 
             @if($isActive)
-                <button class="btn flex-grow btn-outline btn-primary text-base">Join Now</button>
+                <a href="{{$link}}" target="_blank" class="btn flex-grow btn-outline btn-primary text-base">Join Now</a>
             @endif
         </div>
     </div>
