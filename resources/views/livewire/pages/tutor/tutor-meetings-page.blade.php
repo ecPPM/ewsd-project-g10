@@ -23,6 +23,13 @@
                         </div>
 
                         <div class="mb-3">
+                            <label for="title" class="block text-sm font-medium text-gray-700">Meeting Name</label>
+                            <input wire:model="title" name="title" type="text"
+                                   class="input input-primary"
+                                   placeholder="Enter Meeting Name" />
+                        </div>
+
+                        <div class="mb-3">
                             <label for="time" class="block text-sm font-medium text-gray-700">Meeting Date and Time</label>
                             <input wire:model="time" name="time" type="date"
                                    class="input input-primary"
@@ -50,14 +57,14 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="invitation-link" class="block text-sm font-medium text-gray-700">Enter Invitation Link</label>
+                            <label for="invitation-link" class="block text-sm font-medium text-gray-700">Meeting Invitation Link</label>
                             <input wire:model="invitationLink" name="invitation-link" type="text" class="grow border-none input-ghost"
-                            placeholder="Invitation Link" />
+                            placeholder="Enter Meeting Link" />
                         </div>
 
                         <div class="">
-                            <label for="notes" class="block text-sm font-medium text-gray-700">Enter Description</label>
-                            <textarea wire:model="notes" name="notes" class="grow border-none input-ghost" placeholder="Description / Notes"></textarea>
+                            <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+                            <textarea wire:model="description" name="description" class="grow border-none input-ghost" placeholder="Enter Description Here ..."></textarea>
                         </div>
 
                         <button class="btn btn-primary self-end"
@@ -82,6 +89,15 @@
                                     <option value="{{$student->id}}">{{ $student->name }}</option>
                                 @endforeach
                             </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="title" class="block text-sm font-medium text-gray-700">Meeting Name</label>
+                            <input wire:model="title" name="title" type="text"
+                                   class="input input-primary"
+                                   placeholder="Enter Meeting Name"
+                                   value="{{ $title }}"
+                                   />
                         </div>
 
                         <div class="mb-3">
@@ -116,8 +132,8 @@
                         </div>
 
                         <div class="">
-                            <label for="notes" class="block text-sm font-medium text-gray-700">Enter Description</label>
-                            <textarea wire:model="notes" name="notes" class="grow border-none input-ghost" placeholder="Description / Notes">{{ $notes }}</textarea>
+                            <label for="description" class="block text-sm font-medium text-gray-700">Enter Description</label>
+                            <textarea wire:model="description" name="description" class="grow border-none input-ghost" placeholder="Description / Notes">{{ $description }}</textarea>
                         </div>
 
                         <button class="btn btn-primary self-end">Update</button>
@@ -130,23 +146,28 @@
             <div class="modal-box w-full flex flex-col">
                 <button wire:click="clearAll" class="btn btn-sm btn-circle btn-ghost absolute top-2 right-2">✕</button>
                 <div class="flex flex-col gap-6">
-                    <form class="p-5" wire:submit.prevent='editMeeting' action=''>
-                        <div class="mb-3">
-                            @if ($editingMeeting)
-                            <label for="select-student" class="block text-sm font-medium text-gray-700">{{ $editingMeeting->student->name }}</label>
-                            @endif
+                    <form class="p-5" wire:submit.prevent='addNote' action=''>
+
+                        <h6 for="description" class="block text-sm font-medium text-gray-700">Meeting Notes</h6>
+
+
+                        <div class="my-6">
+                            <label for="editingNote" class="block text-sm font-medium text-gray-700">Enter Meeting Notes</label>
+                            @foreach ($notes as $note)
+                                {{-- display previous notes here --}}
+                                <div class="my-3">
+                                    <div class="flex flex-row">
+                                        <span class="me-6">{{ $note->user->name }}</span>
+                                        <span>{{ $note->created_at->diffForHumans() }}</span>
+                                    </div>
+                                    <p class="mt-3">{{ $note->content }}</p>
+                                </div>
+
+                            @endforeach
+                            <textarea wire:model="editingNote" name="editingNote" class="grow border-none input-ghost" placeholder="Enter Text Here ..."></textarea>
                         </div>
 
-                        <div class="mb-3">
-                            <label class="block text-sm font-medium text-gray-700">{{ $time }}</label>
-                        </div>
-
-                        <div class="">
-                            <label for="notes" class="block text-sm font-medium text-gray-700">Enter Meeting Notes</label>
-                            <textarea wire:model="notes" name="notes" class="grow border-none input-ghost" placeholder="Description / Notes">{{ $notes }}</textarea>
-                        </div>
-
-                        <button class="btn btn-primary self-end">Update</button>
+                        <button class="btn btn-primary self-end">Add Note</button>
                     </form>
                 </div>
             </div>
@@ -194,14 +215,14 @@
 {{--                        <span>{{ $meeting->student->name }}</span>--}}
 {{--                        <span>{{ $meeting->mode }}</span>--}}
 {{--                        <span>{{ $meeting->time }}</span>--}}
-{{--                        <span>{{ $meeting->notes }}</span>--}}
+{{--                        <span>{{ $meeting->description }}</span>--}}
 {{--                    </div>--}}
 {{--                    <div class="flex flex-row">--}}
 {{--                        <button wire:click="handleEditClick('pending',{{ $meeting->id }})"--}}
 {{--                                class="btn btn-sm sm:btn-md btn-primary">--}}
 {{--                            <span class="">Edit</span>--}}
 {{--                        </button>--}}
-{{--                        <button wire:click="cancelMeeting({{ $meeting->id }})"--}}
+{{--                        <button wire:click="deleteMeeting({{ $meeting->id }})"--}}
 {{--                            class="ms-5 btn btn-sm sm:btn-md btn-secondary">--}}
 {{--                        <span class="">Cancel</span>--}}
 {{--                    </button>--}}
@@ -221,7 +242,7 @@
 {{--                            <span>{{ $meeting->student->name }}</span>--}}
 {{--                            <span>{{ $meeting->mode }}</span>--}}
 {{--                            <span>{{ $meeting->time }}</span>--}}
-{{--                            <span>{{ $meeting->notes }}</span>--}}
+{{--                            <span>{{ $meeting->description }}</span>--}}
 {{--                        </div>--}}
 {{--                        <div class="">--}}
 {{--                            <button wire:click="handleEditClick('finished',{{ $meeting->id }})"--}}

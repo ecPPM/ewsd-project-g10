@@ -10,13 +10,14 @@ class Meeting extends Model
     protected $fillable = [
         'student_id',
         'tutor_id',
+        'title',
         'mode',
         'time',
         'location',
         'platform',
         'invitation_link',
-        'is_cancelled',
-        'notes',
+        'student_response',
+        'description',
     ];
 
     protected $casts = [
@@ -31,5 +32,10 @@ class Meeting extends Model
     public function tutor()
     {
         return $this->belongsTo(User::class, 'tutor_id');
+    }
+
+    public function notes()
+    {
+        return $this->hasMany(MeetingNote::class);
     }
 }
