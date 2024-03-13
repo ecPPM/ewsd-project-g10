@@ -32,7 +32,7 @@
     <div class="w-full flex flex-col gap-2 p-5">
         <div class="flex items-center justify-between w-full">
             <h3 class="text-base text-neutral font-medium">Meeting Name Here</h3>
-            @if($isPending)
+            @if($isPending && auth()->user()->role->id === 2)
                 <button class="btn btn-sm btn-ghost" wire:click="handleEditClick('pending',{{ $meeting->id }})">
                     <div class="h-auto w-[5px]">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 512" fill="#676767">
