@@ -4,14 +4,15 @@
 
 @php
     $id = $meeting->id;
-    $name = "Meeting Name Here";
+    $name = $meeting->title;
     $dateTime = $meeting->time;
     $studentName = $meeting->student->name;
     $tutorName = $meeting->tutor->name;
     $isPending = $meeting->time > now();
     $isActive = true; // TODO: Cac check if current time is between meeting start_time and end_time
     $link = $meeting->invitation_link;
-    $description = $meeting->notes;
+    $description = $meeting->description;
+    $notes = $meeting->notes;
 @endphp
 
 <script>
@@ -31,7 +32,7 @@
 <div {{ $attributes->merge(["class" => "col-span-1 shadow-normal bg-base-100 rounded-[12px]"]) }}>
     <div class="w-full flex flex-col gap-2 p-5">
         <div class="flex items-center justify-between w-full">
-            <h3 class="text-base text-neutral font-medium">Meeting Name Here</h3>
+            <h3 class="text-base text-neutral font-medium">{{ $name }}</h3>
             @if($isPending && auth()->user()->role->id === 2)
                 <button class="btn btn-sm btn-ghost" wire:click="handleEditClick('pending',{{ $id }})">
                     <div class="h-auto w-[5px]">

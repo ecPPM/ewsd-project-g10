@@ -33,4 +33,9 @@ class Meeting extends Model
     {
         return $this->belongsTo(User::class, 'tutor_id');
     }
+
+    public function notes()
+    {
+        return $this->hasMany(MeetingNote::class);
+    }
 }

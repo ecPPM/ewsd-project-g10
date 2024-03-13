@@ -11,4 +11,15 @@ class MeetingNote extends Model
         'user_id',
         'content',
     ];
+
+    public function meeting()
+    {
+        return $this->belongsTo(Meeting::class, 'meeting_id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
 }
