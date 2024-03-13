@@ -8,6 +8,7 @@ use App\Http\Controllers\MailController;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
@@ -87,6 +88,7 @@ class User extends Authenticatable
 
         $this->tutors()->syncWithoutDetaching([$tutorId => ['is_current' => true, 'created_at' => now(), 'updated_at' => now()]]);
 
+        InteractionLog::addInteractionLogEntry($this->id, $tutorId, 1, 0);
         // Send emails
         $tutor = User::find($tutorId);
         $mailController = new MailController();
