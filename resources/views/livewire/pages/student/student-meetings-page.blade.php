@@ -8,7 +8,7 @@
         @if(count($pendingMeetings))
             <dvi class="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 @foreach($pendingMeetings as $meeting)
-                    <x-meeting-card :meeting="$meeting" />
+                    <x-meeting.card :meeting="$meeting" />
                 @endforeach
             </dvi>
         @else
@@ -25,7 +25,7 @@
         @if(count($finishedMeetings) >0 )
             <dvi class="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 @foreach($finishedMeetings as $meeting)
-                    <x-meeting-card :meeting="$meeting" />
+                    <x-meeting.card :meeting="$meeting" />
                 @endforeach
             </dvi>
         @else

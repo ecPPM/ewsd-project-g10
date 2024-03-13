@@ -63,3 +63,11 @@ ul.app-list li > label {
 ul.app-list li > span {
     @apply flex-1 text-base-content;
 }
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+}
+
+input[type="time"]::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+}

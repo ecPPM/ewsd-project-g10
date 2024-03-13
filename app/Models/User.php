@@ -88,9 +88,9 @@ class User extends Authenticatable
         $this->tutors()->syncWithoutDetaching([$tutorId => ['is_current' => true, 'created_at' => now(), 'updated_at' => now()]]);
 
         // Send emails
-        $tutor = User::find($tutorId);
-        $mailController = new MailController();
-        $mailController->sendTutorAssignMails($tutor, $this);
+//        $tutor = User::find($tutorId);
+//        $mailController = new MailController();
+//        $mailController->sendTutorAssignMails($tutor, $this);
 
         return true;
     }

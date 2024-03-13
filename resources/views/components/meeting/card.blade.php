@@ -4,12 +4,14 @@
 
 @php
     $id = $meeting->id;
+    $meetingStartTime = $meeting->time->format('h:i');
+    $meetingEndTime = $meeting->time->addMinutes(30)->format('h:i');
     $name = $meeting->title;
     $dateTime = $meeting->time;
     $studentName = $meeting->student->name;
     $tutorName = $meeting->tutor->name;
     $isPending = $meeting->time > now();
-    $isActive = true; // TODO: Cac check if current time is between meeting start_time and end_time
+    $isActive = now()->diffInMinutes($meeting->time) <= 30;
     $link = $meeting->invitation_link;
     $description = $meeting->description;
     $notes = $meeting->notes;
@@ -47,10 +49,10 @@
 
         <div class="flex gap-3 text-sm text-base-content/80">
             <p>
-                <span>4:00</span> {{-- meeting_start_time --}}
+                <span>{{$meetingStartTime}}</span> {{-- meeting_start_time --}}
                 <span>-</span>
-                <span>4:30</span> {{-- meeting_end_time --}}
-                <span>pm</span>
+                <span>{{$meetingEndTime}}</span> {{-- meeting_end_time --}}
+                <span>{{$meeting->time->format('a')}}</span>
             </p>
             <div class="divider divider-horizontal m-0 p-0"></div>
             <p>{{$meeting->time->format('M d, Y')}}</p>
