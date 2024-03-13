@@ -128,8 +128,7 @@
 
         <dialog id="editFinishedModal" class="modal @if($modalEditFinshedOpen) modal-open @endif">
             <div class="modal-box w-full flex flex-col">
-                <button wire:click="clearAll" class="btn btn-sm btn-circle btn-ghost absolute top-2 right-2">✕
-                </button>
+                <button wire:click="clearAll" class="btn btn-sm btn-circle btn-ghost absolute top-2 right-2">✕</button>
                 <div class="flex flex-col gap-6">
                     <form class="p-5" wire:submit.prevent='editMeeting' action=''>
                         <div class="mb-3">
