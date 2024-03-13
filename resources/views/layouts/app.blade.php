@@ -33,7 +33,7 @@
     </main>
 
     <!--    Footer -->
-    <footer class="footer footer-center p-4 bg-transparent mt-16 mb-8 text-base-content/50">
+    <footer class="footer footer-center p-4 bg-transparent mt-16 pb-6 text-base-content/50">
         <aside>
             <p class="text-xs md:text-sm">Copyright © 2024 - All right reserved by EWSD GP10</p>
         </aside>
