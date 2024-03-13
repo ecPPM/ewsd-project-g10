@@ -7,15 +7,15 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+{{--    <!-- Fonts -->--}}
+{{--    <link rel="preconnect" href="https://fonts.bunny.net">--}}
+{{--    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />--}}
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="font-sans antialiased">
-<div class="min-h-screen bg-base-100">
+<body class="antialiased">
+<div class="min-h-screen bg-[#F9FAFB]">
     <livewire:layout.navigation />
 
     <!-- Page Heading -->
@@ -33,7 +33,7 @@
     </main>
 
     <!--    Footer -->
-    <footer class="footer footer-center p-4 bg-base-100 mt-16 mb-8 text-base-content/50">
+    <footer class="footer footer-center p-4 bg-transparent mt-16 pb-6 text-base-content/50">
         <aside>
             <p class="text-xs md:text-sm">Copyright © 2024 - All right reserved by EWSD GP10</p>
         </aside>
