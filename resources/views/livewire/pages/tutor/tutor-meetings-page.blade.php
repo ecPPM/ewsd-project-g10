@@ -64,7 +64,7 @@
 
                         <div class="mb-3">
                             <label for="invitation-link" class="block text-sm font-medium text-gray-700">Enter Invitation Link</label>
-                            <input wire:model="invitation_link" name="invitation-link" type="text" class="grow border-none input-ghost"
+                            <input wire:model="invitationLink" name="invitation-link" type="text" class="grow border-none input-ghost"
                             placeholder="Invitation Link" value="{{ $invitationLink }}"/>
                         </div>
 

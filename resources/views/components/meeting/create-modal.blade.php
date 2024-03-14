@@ -6,7 +6,7 @@
 
 
 <dialog id="newMeetingModal" {{ $attributes->class(['modal', 'modal-open' => $modalOpen]) }}>
-    <div class="modal-box flex flex-col w-11/12 max-w-3xl p-10">
+    <div class="modal-box flex flex-col w-11/12 max-w-3xl px-10 py-8">
 {{--        <button wire:click="clear" class="btn btn-sm btn-circle btn-ghost absolute top-2 right-2">✕</button>--}}
         <div class="flex flex-col gap-8">
             <div class="flex flex-col gap-4">
@@ -16,17 +16,24 @@
 
             <form class="grid grid-cols-2 gap-6">
                 <x-meeting.form-group id="title" label="Meeting Name">
-                    <input wire:model="title" name="title" type="text" aria-label="meeting-title"
-                           class="input input-primary w-full"
+                    <input wire:model.live="title" name="title" type="text" aria-label="meeting-title"
+                           class="input w-full {{  $errors->get('title')? 'input-error' : 'input-primary' }}"
                            placeholder="Enter Meeting Name" />
+                        <x-input-error :messages="$errors->get('title')" />
                 </x-meeting.form-group>
 
                 <x-meeting.form-group id="mode" label="Meeting Platform">
-                    <select aria-label="select-box-for-meeting-type" name="mode" id="mode" wire:model="selectedMode" class="select select-primary w-full text-base">
+                    <select aria-label="select-box-for-meeting-type"
+                            name="mode"
+                            id="mode"
+                            wire:model.live="selectedMode"
+                            class="select {{ $errors->get('selectedMode')? 'select-error' : 'select-primary' }} w-full text-base"
+                    >
                         <option value="default" disabled>Please Select Meeting Type</option>
                         <option value="Online">Online</option>
                         <option value="In-Person">In Person</option>
                     </select>
+                    <x-input-error :messages="$errors->get('selectedMode')" />
                 </x-meeting.form-group>
 
                 <x-meeting.form-group id="teacherName" label="Teacher Name">
@@ -45,13 +52,14 @@
                         name="select-student"
                         id="select-student"
                         wire:model.live="selectedStudentId"
-                        class="select select-primary w-full text-base"
+                        class="select w-full text-base {{  $errors->get('selectedStudentId')? 'select-error' : 'select-primary' }}"
                     >
                         <option value="default" disabled>Select Student Name</option>
                         @foreach($activeStudents as $student)
                             <option value="{{$student->id}}">{{ $student->name }}</option>
                         @endforeach
                     </select>
+                    <x-input-error :messages="$errors->get('selectedStudentId')" />
                 </x-meeting.form-group>
 
                 <x-meeting.form-group id='meeting-date' label="Meeting Date">

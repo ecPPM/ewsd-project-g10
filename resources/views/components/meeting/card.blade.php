@@ -8,8 +8,8 @@
     $dateTime = $meeting->time;
     $studentName = $meeting->student->name;
     $tutorName = $meeting->tutor->name;
-    $isPending = $meeting->time > now();
-    $isActive = $meeting->time < now() && $meeting->time->addMinutes(30) >= now();
+    $isPending = $meeting->time->addMinutes(30) > now();
+    $isActive = now() >= $meeting->time && now() <= $meeting->time->addMinutes(30);
     $link = $meeting->invitation_link;
     $description = $meeting->description;
     $student_response = $meeting->student_response;
@@ -17,13 +17,15 @@
 @endphp
 
 <script>
-    function copyToClipboard(id) {
+    function copyToClipboard(id, inputId) {
         try{
-        const element = document.getElementById(id);
-        window.navigator.clipboard.writeText(element.textContent);
-        const tooltip = document.getElementById(`tooltip-${id}`)
-        tooltip.classList.add('tooltip','tooltip-open')
-        setTimeout(()=>tooltip.classList.remove('tooltip','tooltip-open'),1000)
+            const element = document.getElementById(id);
+            window.navigator.clipboard.writeText(element.textContent);
+            const tooltip = document.getElementById(`tooltip-${id}`)
+            tooltip.classList.add('tooltip','tooltip-open')
+            setTimeout(()=> {
+                tooltip.classList.remove("tooltip", "tooltip-open");
+            },1000)
         } catch (err){
             console.log(err);
         }
@@ -34,7 +36,7 @@
     <div class="w-full flex flex-col gap-2 p-5">
         <div class="flex items-center justify-between w-full">
             <h3 class="text-base text-neutral font-medium">{{ $name }}</h3>
-            @if($isPending && auth()->user()->role->id === 2)
+            @if($isPending && !$isActive && auth()->user()->role->id === 2)
                 <button class="btn btn-sm btn-ghost" wire:click="handleEditClick('pending',{{ $id }})">
                     <div class="h-auto w-[5px]">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 512" fill="#676767">
@@ -48,10 +50,10 @@
 
         <div class="flex gap-3 text-sm text-base-content/80">
             <p>
-                <span>4:00</span> {{-- meeting_start_time --}}
+                <span>{{$dateTime->format('h:i')}}</span> {{-- meeting_start_time --}}
                 <span>-</span>
-                <span>4:30</span> {{-- meeting_end_time --}}
-                <span>pm</span>
+                <span>{{$dateTime->addMinutes(30)->format("h:i")}}</span> {{-- meeting_end_time --}}
+                <span>{{$dateTime->format('a')}}</span>
             </p>
             <div class="divider divider-horizontal m-0 p-0"></div>
             <p>{{$meeting->time->format('M d, Y')}}</p>
@@ -79,10 +81,10 @@
 
         <div class="w-full flex items-stretch flex-wrap gap-2">
             <label class="input flex-grow min-w-sm input-bordered flex items-center gap-2 px-0 pr-1">
-                <input type="text" class="grow border-none text-base-content/60 text-sm" disabled placeholder="Meeting link" value="{{$link}}"/>
+                <input id="input-link-{{$id}}" type="text" class="grow border-none text-base-content/60 text-sm" disabled placeholder="Meeting link" value="{{$link}}"/>
                 <div id="tooltip-copy-meeting-{{$id}}" data-tip="Copied">
                     <button class="btn btn-sm btn-ghost flex items-center justify-center !p-2 !m-1 !h-9 !w-9"
-                            onclick="copyToClipboard('copy-meeting-{{$id}}')">
+                            onclick="copyToClipboard('copy-meeting-{{$id}}','input-link-{{$id}}')">
                         <span id="copy-meeting-{{$id}}" class="hidden">{{$link}}</span>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="#9CA3AF" viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M64 464H288c8.8 0 16-7.2 16-16V384h48v64c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V224c0-35.3 28.7-64 64-64h64v48H64c-8.8 0-16 7.2-16 16V448c0 8.8 7.2 16 16 16zM224 304H448c8.8 0 16-7.2 16-16V64c0-8.8-7.2-16-16-16H224c-8.8 0-16 7.2-16 16V288c0 8.8 7.2 16 16 16zm-64-16V64c0-35.3 28.7-64 64-64H448c35.3 0 64 28.7 64 64V288c0 35.3-28.7 64-64 64H224c-35.3 0-64-28.7-64-64z"/></svg>
                     </button>
@@ -104,9 +106,9 @@
                 <div class="flex justify-between items-center">
                     <span class="text-base-content/80">Student chose</span>
                     <ul class="flex gap-1.5">
-                        <li class="badge badge-outline @if($student_response === 'Yes') badge-primary @endif px-3 py-4">Yes</li>
-                        <li class="badge badge-outline @if($student_response === 'No') badge-primary @endif px-3 py-4 border-base-content/50">No</li>
-                        <li class="badge badge-outline @if($student_response === 'Maybe') badge-primary @endif px-3 py-4 border-base-content/50">Maybe</li>
+                        <li class="badge badge-outline px-3 py-4 {{$student_response === 'Yes' ? "badge-primary" : "border-base-content/50"}}">Yes</li>
+                        <li class="badge badge-outline px-3 py-4 {{$student_response === 'No' ? "badge-primary" : "border-base-content/50"}}">No</li>
+                        <li class="badge badge-outline px-3 py-4 {{$student_response === 'Maybe' ? "badge-primary" : "border-base-content/50"}}">Maybe</li>
                     </ul>
                 </div>
             @elseif(auth()->user()->role->id === 3)
@@ -114,13 +116,13 @@
                     <span class="text-base-content/80">Attending?</span>
                     <ul class="flex gap-1">
                         <li>
-                            <button wire:click="handleRespondMeeting({{ $id }},'Yes')" class="btn font-normal rounded-full btn-sm btn-outline @if($student_response === 'Yes') btn-primary @endif">Yes</button>
+                            <button wire:click="handleRespondMeeting({{ $id }},'Yes')" class="btn font-normal rounded-full btn-sm btn-outline {{$student_response === 'Yes' ? "btn-primary" : "border-base-content/50"}}">Yes</button>
                         </li>
                         <li>
-                            <button wire:click="handleRespondMeeting({{ $id }},'No')" class="btn font-normal border-base-content/50 rounded-full btn-sm btn-outline @if($student_response === 'No') btn-primary @endif">No</button>
+                            <button wire:click="handleRespondMeeting({{ $id }},'No')" class="btn font-normal rounded-full btn-sm btn-outline {{$student_response === 'No' ? "btn-primary" : "border-base-content/50"}}">No</button>
                         </li>
                         <li>
-                            <button wire:click="handleRespondMeeting({{ $id }},'Maybe')" class="btn font-normal border-base-content/50 rounded-full btn-sm btn-outline @if($student_response === 'Maybe') btn-primary @endif">Maybe</button>
+                            <button wire:click="handleRespondMeeting({{ $id }},'Maybe')" class="btn font-normal rounded-full btn-sm btn-outline {{$student_response === 'Maybe' ? "btn-primary" : "border-base-content/50"}}">Maybe</button>
                         </li>
                     </ul>
                 </div>

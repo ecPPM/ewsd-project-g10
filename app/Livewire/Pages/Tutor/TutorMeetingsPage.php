@@ -9,28 +9,29 @@ use App\Models\MeetingNote;
 use App\Models\User;
 use DateTime;
 use Illuminate\Support\Facades\Auth;
-use Livewire\Attributes\Rule;
+use Livewire\Attributes\Validate;
 use Livewire\Component;
 
 class TutorMeetingsPage extends Component
 {
     // Form components for create
-    #[Rule('required')]
+    #[Validate('required', message: "The student name field is required.")]
+    #[Validate('not_in:default', message: "The student name field is required.")]
     public $selectedStudentId = 'default';
 
-    #[Rule('required')]
+    #[Validate('required', message: "The meeting platform field is required.")]
+    #[Validate('not_in:default', message: "The meeting platform field is required.")]
     public $selectedMode = 'default';
 
-    #[Rule('required')]
+    #[Validate('required')]
     public $title;
 
-    #[Rule('required')]
     public $time;
 
-    #[Rule('required')]
+    #[Validate('required')]
     public $meetingDate;
 
-    #[Rule('required')]
+    #[Validate('required')]
     public $meetingTime;
 
     public $location;
@@ -54,18 +55,14 @@ class TutorMeetingsPage extends Component
     public $modalEditPendingOpen = false;
     public $modalEditFinshedOpen = false;
 
-//    public function mount()
-//    {
-//        $this->meetingDate = now()->format('Y-m-d');
-//        $this->meetingTime = now()->format('H:i:s');
-//    }
-
 
     //public $editingMeeting;
 
     // -------------------- Model functions ----------------------
     public function createNewMeeting()
     {
+        $this->validate();
+
         $meeting = Meeting::create([
             'student_id' => $this->selectedStudentId,
             'tutor_id' => Auth::user()->id,
@@ -136,6 +133,7 @@ class TutorMeetingsPage extends Component
     public function clear()
     {
         $this->reset(['selectedStudentId', 'selectedMode', 'title', 'time', 'location', 'platform', 'invitationLink', 'description', 'notes', 'modalOpen', 'meetingDate', 'meetingTime']);
+        $this->resetValidation();
     }
 
     // ----------------- EDIT MEETING -------------------
