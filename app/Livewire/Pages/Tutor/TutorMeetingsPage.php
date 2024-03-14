@@ -2,9 +2,11 @@
 
 namespace App\Livewire\Pages\Tutor;
 
+use App\Http\Controllers\MailController;
 use App\Models\InteractionLog;
 use App\Models\Meeting;
 use App\Models\MeetingNote;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
@@ -62,6 +64,9 @@ class TutorMeetingsPage extends Component
             'description' => $this->description,
         ]);
         // flash success message
+
+        $mailController = new MailController();
+        $mailController->sendMeetingMail($meeting, User::find($this->selectedStudentId)->first());
 
         InteractionLog::addInteractionLogEntry($this->selectedStudentId, Auth::user()->id, 2, $meeting->id);
         $this->clear();
