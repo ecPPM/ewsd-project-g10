@@ -9,9 +9,10 @@
     $studentName = $meeting->student->name;
     $tutorName = $meeting->tutor->name;
     $isPending = $meeting->time > now();
-    $isActive = true; // TODO: Cac check if current time is between meeting start_time and end_time
+    $isActive = $meeting->time < now() && $meeting->time->addMinutes(30) >= now();
     $link = $meeting->invitation_link;
     $description = $meeting->description;
+    $student_response = $meeting->student_response;
     $notes = $meeting->notes;
 @endphp
 
@@ -91,6 +92,7 @@
             @if($isActive)
                 <a href="{{$link}}" target="_blank" class="btn flex-grow btn-outline btn-primary text-base">Join Now</a>
             @endif
+
         </div>
     </div>
 
@@ -102,9 +104,9 @@
                 <div class="flex justify-between items-center">
                     <span class="text-base-content/80">Student chose</span>
                     <ul class="flex gap-1.5">
-                        <li class="badge badge-outline badge-primary px-3 py-4">Yes</li>
-                        <li class="badge badge-outline px-3 py-4 border-base-content/50">No</li>
-                        <li class="badge badge-outline px-3 py-4 border-base-content/50">Maybe</li>
+                        <li class="badge badge-outline @if($student_response === 'Yes') badge-primary @endif px-3 py-4">Yes</li>
+                        <li class="badge badge-outline @if($student_response === 'No') badge-primary @endif px-3 py-4 border-base-content/50">No</li>
+                        <li class="badge badge-outline @if($student_response === 'Maybe') badge-primary @endif px-3 py-4 border-base-content/50">Maybe</li>
                     </ul>
                 </div>
             @elseif(auth()->user()->role->id === 3)
@@ -112,13 +114,13 @@
                     <span class="text-base-content/80">Attending?</span>
                     <ul class="flex gap-1">
                         <li>
-                            <button class="btn font-normal rounded-full btn-sm btn-outline btn-primary">Yes</button>
+                            <button wire:click="handleRespondMeeting({{ $id }},'Yes')" class="btn font-normal rounded-full btn-sm btn-outline @if($student_response === 'Yes') btn-primary @endif">Yes</button>
                         </li>
                         <li>
-                            <button class="btn font-normal border-base-content/50 rounded-full btn-sm btn-outline">No</button>
+                            <button wire:click="handleRespondMeeting({{ $id }},'No')" class="btn font-normal border-base-content/50 rounded-full btn-sm btn-outline @if($student_response === 'No') btn-primary @endif">No</button>
                         </li>
                         <li>
-                            <button class="btn font-normal border-base-content/50 rounded-full btn-sm btn-outline">Maybe</button>
+                            <button wire:click="handleRespondMeeting({{ $id }},'Maybe')" class="btn font-normal border-base-content/50 rounded-full btn-sm btn-outline @if($student_response === 'Maybe') btn-primary @endif">Maybe</button>
                         </li>
                     </ul>
                 </div>
