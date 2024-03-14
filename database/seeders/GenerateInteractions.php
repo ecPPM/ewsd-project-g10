@@ -14,29 +14,29 @@ class GenerateInteractions extends Seeder
     public function run(): void
     {
         DB::table('interactions')->insert([
-            ['name' => 'Assign Tutor'],
+            ['name' => 'Assign Tutor'],  // 1
 
-            ['name' => 'Create Meeting'],
-            ['name' => 'Edit Meeting'],
-            ['name' => 'Delete Meeting'],
-            ['name' => 'Respond Meeting'],
+            ['name' => 'Create Meeting'],  // 2
+            ['name' => 'Edit Meeting'],  // 3
+            ['name' => 'Delete Meeting'],  // 4
+            ['name' => 'Respond Meeting'],  // 5
 
-            ['name' => 'Add Meeting Note'],
-            ['name' => 'Edit Meeting Note'],
-            ['name' => 'Delete Meeting Note'],
+            ['name' => 'Add Meeting Note'],  // 6
+            ['name' => 'Edit Meeting Note'],  // 7
+            ['name' => 'Delete Meeting Note'],  // 8
 
-            ['name' => 'Add Post'],
-            ['name' => 'Edit Post'],
-            ['name' => 'Delete Post'],
+            ['name' => 'Add Post'],  // 9
+            ['name' => 'Edit Post'],  // 10
+            ['name' => 'Delete Post'],  // 11
 
-            ['name' => 'Add Comment'],
-            ['name' => 'Edit Comment'],
-            ['name' => 'Delete Comment'],
+            ['name' => 'Add Comment'],  // 12
+            ['name' => 'Edit Comment'],  // 13
+            ['name' => 'Delete Comment'],  // 14
 
-            ['name' => 'Add File'],
-            ['name' => 'Delete File'],
+            ['name' => 'Add File'],  // 15
+            ['name' => 'Delete File'],  // 16
 
-            ['name' => 'Send Message'],
+            ['name' => 'Send Message'],  // 17
         ]);
     }
 }
