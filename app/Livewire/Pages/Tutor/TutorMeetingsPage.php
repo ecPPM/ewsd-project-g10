@@ -9,11 +9,14 @@ use App\Models\MeetingNote;
 use App\Models\User;
 use DateTime;
 use Illuminate\Support\Facades\Auth;
+use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 
 class TutorMeetingsPage extends Component
 {
+    use LivewireAlert;
+
     // Form components for create
     #[Validate('required', message: "The student name field is required.")]
     #[Validate('not_in:default', message: "The student name field is required.")]
@@ -75,6 +78,11 @@ class TutorMeetingsPage extends Component
             'description' => $this->description,
         ]);
         // flash success message
+        $this->alert('success', 'Successfully created a new meeting.',[
+            'customClass' => [
+                'popup' => 'text-sm',
+            ]
+        ]);
 
         $mailController = new MailController();
         $mailController->sendMeetingMail($meeting, User::find($this->selectedStudentId)->first());
