@@ -107,11 +107,11 @@ class User extends Authenticatable
 
     public function finishedMeetings()
     {
-        return $this->meetings()->where('time', '<=', now());
+        return $this->meetings()->where('time', '<=', now()->subMinutes(30));
     }
 
     public function pendingMeetings()
     {
-        return $this->meetings()->where('time', '>', now());
+        return $this->meetings()->where('time', '>', now()->subMinutes(30));
     }
 }

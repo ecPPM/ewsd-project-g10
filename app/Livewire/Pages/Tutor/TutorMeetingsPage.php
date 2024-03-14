@@ -177,11 +177,7 @@ class TutorMeetingsPage extends Component
             'content' => $this->editingNote,
         ]);
 
-        if (Auth::user()->role === 'student') {
-            InteractionLog::addInteractionLogEntry(Auth::user()->id, null, 6, $note->meeting->id);
-        } else {
-            InteractionLog::addInteractionLogEntry(null, Auth::user()->id, 6, $note->meeting->id);
-        }
+        InteractionLog::addInteractionLogEntry(null, Auth::user()->id, 6, $note->meeting->id);
 
         $this->setMeetingDetails();
         $this->clearNote();
