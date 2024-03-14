@@ -2,6 +2,8 @@
 
 namespace App\Livewire\Pages\Tutor;
 
+use App\Http\Controllers\MailController;
+use App\Models\InteractionLog;
 use App\Models\Meeting;
 use App\Models\MeetingNote;
 use App\Models\User;
@@ -64,7 +66,7 @@ class TutorMeetingsPage extends Component
     // -------------------- Model functions ----------------------
     public function createNewMeeting()
     {
-        Meeting::create([
+        $meeting = Meeting::create([
             'student_id' => $this->selectedStudentId,
             'tutor_id' => Auth::user()->id,
             'title' => $this->title,
@@ -75,7 +77,12 @@ class TutorMeetingsPage extends Component
             'invitation_link' => $this->invitationLink,
             'description' => $this->description,
         ]);
-        // success message
+        // flash success message
+
+        $mailController = new MailController();
+        $mailController->sendMeetingMail($meeting, User::find($this->selectedStudentId)->first());
+
+        InteractionLog::addInteractionLogEntry($this->selectedStudentId, Auth::user()->id, 2, $meeting->id);
         $this->clear();
     }
 
@@ -95,7 +102,9 @@ class TutorMeetingsPage extends Component
                 'invitation_link' => $this->invitationLink,
                 'description' => $this->description,
             ]);
-            // success message
+            // flash success message
+
+            InteractionLog::addInteractionLogEntry($this->selectedStudentId, Auth::user()->id, 3, $meeting->id);
         }
 
         $this->clearAll();
@@ -106,8 +115,10 @@ class TutorMeetingsPage extends Component
         $meeting = Meeting::find($id);
 
         if ($meeting) {
+            InteractionLog::addInteractionLogEntry($this->selectedStudentId, Auth::user()->id, 4, $meeting->id);
+
             $meeting->delete();
-            // success message
+            // flash success message
         }
     }
 
@@ -180,12 +191,14 @@ class TutorMeetingsPage extends Component
     // -----------   Add Note   ------------
     public function addNote()
     {
-        MeetingNote::create([
+        $note = MeetingNote::create([
             'meeting_id' => $this->editingMeetingId,
             'user_id' => Auth::user()->id,
             'content' => $this->editingNote,
         ]);
-        // success message
+
+        InteractionLog::addInteractionLogEntry(null, Auth::user()->id, 6, $note->meeting->id);
+
         $this->setMeetingDetails();
         $this->clearNote();
     }
