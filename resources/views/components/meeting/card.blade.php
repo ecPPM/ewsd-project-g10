@@ -124,13 +124,13 @@
                 <div class="flex justify-between items-center">
                     <span class="text-base-content/80">Student chose</span>
                     <ul class="flex gap-1.5">
-                        <li class="badge badge-outline px-3 py-4 {{$student_response === 'Yes' ? "badge-primary" : "border-base-content/50"}}">
+                        <li class="badge badge-outline px-3 py-[15px] {{$student_response === 'Yes' ? "badge-primary !font-semibold" : "!font-normal !text-base-content/75 border-base-content/30"}}">
                             Yes
                         </li>
-                        <li class="badge badge-outline px-3 py-4 {{$student_response === 'No' ? "badge-primary" : "border-base-content/50"}}">
+                        <li class="badge badge-outline px-3 py-[15px] {{$student_response === 'No' ? "badge-error !font-semibold" : "!font-normal !text-base-content/75 border-base-content/30"}}">
                             No
                         </li>
-                        <li class="badge badge-outline px-3 py-4 {{$student_response === 'Maybe' ? "badge-primary" : "border-base-content/50"}}">
+                        <li class="badge badge-outline px-3 py-[15px] {{$student_response === 'Maybe' ? "badge-neutral !text-neutral-700 !font-semibold" : "!font-normal !text-base-content/75 border-base-content/30"}}">
                             Maybe
                         </li>
                     </ul>
@@ -141,19 +141,19 @@
                     <ul class="flex gap-1">
                         <li>
                             <button wire:click="handleRespondMeeting({{ $id }},'Yes')"
-                                    class="btn font-normal rounded-full btn-sm btn-outline {{$student_response === 'Yes' ? "btn-primary" : "border-base-content/50"}}">
+                                    class="btn font-normal rounded-full btn-sm btn-outline {{$student_response === 'Yes' ? "btn-primary !font-semibold" : "!font-normal text-base-content/75 border-base-content/30"}}">
                                 Yes
                             </button>
                         </li>
                         <li>
                             <button wire:click="handleRespondMeeting({{ $id }},'No')"
-                                    class="btn font-normal rounded-full btn-sm btn-outline {{$student_response === 'No' ? "btn-primary" : "border-base-content/50"}}">
+                                    class="btn font-normal rounded-full btn-sm btn-outline {{$student_response === 'No' ? "btn-error !font-semibold" : "!font-normal text-base-content/75 border-base-content/30"}}">
                                 No
                             </button>
                         </li>
                         <li>
                             <button wire:click="handleRespondMeeting({{ $id }},'Maybe')"
-                                    class="btn font-normal rounded-full btn-sm btn-outline {{$student_response === 'Maybe' ? "btn-primary" : "border-base-content/50"}}">
+                                    class="btn font-normal rounded-full btn-sm btn-outline {{$student_response === 'Maybe' ? "btn-neutral !font-semibold" : "!font-normal text-base-content/75 border-base-content/30"}}">
                                 Maybe
                             </button>
                         </li>
