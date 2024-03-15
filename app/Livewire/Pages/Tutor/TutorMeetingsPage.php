@@ -90,7 +90,7 @@ class TutorMeetingsPage extends Component
         ]);
 
         $mailController = new MailController();
-        $mailController->sendMeetingMail($meeting, User::find($this->selectedStudentId)->first());
+        $mailController->sendMeetingMail($meeting, User::find($this->selectedStudentId));
 
         InteractionLog::addInteractionLogEntry($this->selectedStudentId, Auth::user()->id, 2, $meeting->id);
         $this->clear();
