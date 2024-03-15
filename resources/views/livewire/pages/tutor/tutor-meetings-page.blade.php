@@ -1,4 +1,4 @@
-<div class="main-container">
+<div wire:key="{{'tutor-meetings-page'}}" class="main-container">
     <div class="w-full flex justify-between">
         <h2 class="main-title">Scheduling</h2>
         <button wire:click="toggleModal"
@@ -6,11 +6,14 @@
             <span class="text-base">Create Schedule</span>
         </button>
 
+
+
         <x-meeting.create-modal
             wire:key="meeting-create-modal"
             :modal-open="$modalOpen"
             :active-students="$activeStudents"
             :selected-student-id="$selectedStudentId"
+            :selected-mode="$selectedMode"
         />
 
         <dialog id="editPendingModal" class="modal @if($modalEditPendingOpen) modal-open @endif">
@@ -113,7 +116,8 @@
 
     <section class="w-full flex flex-col gap-6">
         <h4 class="font-semibold text-lg">Upcoming Schedule</h4>
-        @if(count($pendingMeetings))
+
+    @if(count($pendingMeetings))
             <dvi class="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 @foreach($pendingMeetings as $meeting)
                     <x-meeting.card :meeting="$meeting" />
@@ -136,60 +140,13 @@
                     <x-meeting.card :meeting="$meeting" />
                 @endforeach
             </dvi>
+        <div class="md:self-end md:w-[200px]">
+            {{ $finishedMeetings->links('vendor.livewire.simple-pagination', data: ['scrollTo' => false]) }}
+        </div>
         @else
             <div class="w-full flex justify-center items-center shadow-normal rounded-[12px] bg-base-100 py-12">
                 <h4 class="font-medium text-base-content/80">No previous schedule yet!</h4>
             </div>
         @endif
     </section>
-
-
-{{--        <div class="w-full flex flex-col gap-2 sm:flex-row sm:justify-between sm:items-center">--}}
-{{--            <div class="w-full border rounded">--}}
-{{--                @foreach ($pendingMeetings as $meeting)--}}
-{{--                <div class="m-3 p-3 flex justify-between border rounded ">--}}
-{{--                    <div class="flex flex-col">--}}
-{{--                        <span>{{ $meeting->student->name }}</span>--}}
-{{--                        <span>{{ $meeting->mode }}</span>--}}
-{{--                        <span>{{ $meeting->time }}</span>--}}
-{{--                        <span>{{ $meeting->description }}</span>--}}
-{{--                    </div>--}}
-{{--                    <div class="flex flex-row">--}}
-{{--                        <button wire:click="handleEditClick('pending',{{ $meeting->id }})"--}}
-{{--                                class="btn btn-sm sm:btn-md btn-primary">--}}
-{{--                            <span class="">Edit</span>--}}
-{{--                        </button>--}}
-{{--                        <button wire:click="deleteMeeting({{ $meeting->id }})"--}}
-{{--                            class="ms-5 btn btn-sm sm:btn-md btn-secondary">--}}
-{{--                        <span class="">Cancel</span>--}}
-{{--                    </button>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--                @endforeach--}}
-{{--            </div>--}}
-{{--        </div>--}}
-
-{{--    <section>--}}
-{{--        <h6 class="mt-3">Finished Meetings</h6>--}}
-{{--        <div class="w-full flex flex-col gap-2 sm:flex-row sm:justify-between sm:items-center">--}}
-{{--            <div class="w-full border rounded">--}}
-{{--                @foreach ($finishedMeetings as $meeting)--}}
-{{--                    <div class="m-3 p-3 flex justify-between border rounded ">--}}
-{{--                        <div class="flex flex-col">--}}
-{{--                            <span>{{ $meeting->student->name }}</span>--}}
-{{--                            <span>{{ $meeting->mode }}</span>--}}
-{{--                            <span>{{ $meeting->time }}</span>--}}
-{{--                            <span>{{ $meeting->description }}</span>--}}
-{{--                        </div>--}}
-{{--                        <div class="">--}}
-{{--                            <button wire:click="handleEditClick('finished',{{ $meeting->id }})"--}}
-{{--                                    class="btn btn-sm sm:btn-md btn-primary">--}}
-{{--                                <span class="">Add Notes</span>--}}
-{{--                            </button>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                @endforeach--}}
-{{--            </div>--}}
-{{--        </div>--}}
-{{--    </section>--}}
 </div>

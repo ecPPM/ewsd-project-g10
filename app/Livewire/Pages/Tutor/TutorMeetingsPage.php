@@ -12,10 +12,13 @@ use Illuminate\Support\Facades\Auth;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class TutorMeetingsPage extends Component
 {
     use LivewireAlert;
+    use WithPagination;
+
 
     // Form components for create
     #[Validate('required', message: "The student name field is required.")]
@@ -23,8 +26,8 @@ class TutorMeetingsPage extends Component
     public $selectedStudentId = 'default';
 
     #[Validate('required', message: "The meeting platform field is required.")]
-    #[Validate('not_in:default', message: "The meeting platform field is required.")]
-    public $selectedMode = 'default';
+//    #[Validate('not_in:default', message: "The meeting platform field is required.")]
+    public $selectedMode = 'Online';
 
     #[Validate('required')]
     public $title;
@@ -37,8 +40,11 @@ class TutorMeetingsPage extends Component
     #[Validate('required')]
     public $meetingTime;
 
+    #[Validate('required_if:selectedMode,==,In-Person',message: 'The location field is required.')]
     public $location;
     public $platform;
+
+    #[Validate('required_if:selectedMode,==,Online', message: 'The meeting link field is required.')]
     public $invitationLink;
 
     public $studentResponse;
@@ -229,9 +235,9 @@ class TutorMeetingsPage extends Component
     public function render()
     {
         return view('livewire.pages.tutor.tutor-meetings-page', [
-            'pendingMeetings' => Auth::user()->pendingMeetings,
-            'finishedMeetings' => Auth::user()->finishedMeetings,
-            'activeStudents' => Auth::user()->activeStudents,
+            'pendingMeetings' => Auth::user()->pendingMeetings()->orderBy('time')->get(),
+            'finishedMeetings' => Auth::user()->finishedMeetings()->orderBy('time','desc')->paginate(6),
+            'activeStudents' => Auth::user()->activeStudents()->get(),
         ]);
     }
 }

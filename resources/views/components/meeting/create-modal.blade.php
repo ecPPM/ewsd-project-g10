@@ -2,16 +2,17 @@
     'modalOpen' => false,
     'activeStudents' => [],
     'selectedStudentId',
+    'selectedMode',
 ])
 
 
 <dialog id="newMeetingModal" {{ $attributes->class(['modal', 'modal-open' => $modalOpen]) }}>
-    <div class="modal-box flex flex-col w-11/12 max-w-3xl px-10 py-8">
-{{--        <button wire:click="clear" class="btn btn-sm btn-circle btn-ghost absolute top-2 right-2">✕</button>--}}
-        <div class="flex flex-col gap-8">
-            <div class="flex flex-col gap-4">
-                <h4 class="text-2xl font-semibold">Create Meeting Schedule</h4>
+    <div class="modal-box flex flex-col w-11/12 max-w-3xl px-5 md:px-10 pt-0 pb-4 md:pb-8">
+        <div class="flex flex-col gap-8 relative">
+            <div class="flex flex-col gap-4 pt-4 md:pt-8 bg-base-100 sticky top-0 left-0">
+                <h4 class="text-lg md:text-2xl font-semibold">Create Meeting Schedule</h4>
                 <div class="h-[3px] rounded-full w-24 bg-primary"></div>
+                <button wire:click="clear" class="btn btn-sm sm:hidden z-10 btn-circle btn-ghost absolute top-2 right-0">✕</button>
             </div>
 
             <form class="grid grid-cols-2 gap-6">
@@ -30,8 +31,8 @@
                             class="select {{ $errors->get('selectedMode')? 'select-error' : 'select-primary' }} w-full text-base"
                     >
                         <option value="default" disabled>Please Select Meeting Type</option>
-                        <option value="Online">Online</option>
-                        <option value="In-Person">In Person</option>
+                        <option value="Online" selected>Online</option>
+                        <option value="In-Person">Offline</option>
                     </select>
                     <x-input-error :messages="$errors->get('selectedMode')" />
                 </x-meeting.form-group>
@@ -76,29 +77,42 @@
                            class="input input-primary" />
                 </x-meeting.form-group>
 
-                <x-meeting.form-group id="invitation-link" label="Meeting Invitation Link" class="col-span-2">
-                    <input aria-label="meeting-invitation-link"
-                           name="invitation-link"
-                           id="invitation-link"
-                           class="input input-primary w-full"
-                           placeholder="Enter Meeting Link"
-                           wire:model="invitationLink" />
-                </x-meeting.form-group>
+                @if($selectedMode === 'Online')
+                    <x-meeting.form-group id="invitation-link" label="Meeting Invitation Link" class="col-span-2 md:col-span-2">
+                        <input aria-label="meeting-invitation-link"
+                               name="invitation-link"
+                               id="invitation-link"
+                               class="input {{$errors->get('invitationLink')? 'input-error' : 'input-primary'}} w-full"
+                               placeholder="Enter Meeting Link"
+                               wire:model="invitationLink" />
+                        <x-input-error :messages="$errors->get('invitationLink')" />
+                    </x-meeting.form-group>
+                @else
+                    <x-meeting.form-group id="location" label="Meeting Location" class="col-span-2 md:col-span-2">
+                        <input aria-label="meeting-location"
+                               name="location"
+                               id="location"
+                               class="input {{$errors->get('location')? 'input-error' : 'input-primary'}} w-full"
+                               placeholder="Enter Meeting Location"
+                               wire:model="location" />
+                        <x-input-error :messages="$errors->get('location')" />
+                    </x-meeting.form-group>
+                @endif
 
-                <x-meeting.form-group id="meeting-create-description" label="Description" class="col-span-2">
+                <x-meeting.form-group id="meeting-create-description" label="Description" class="col-span-2 md:col-span-2">
                     <textarea
                         aria-label="meeting-create-description"
                         name="meeting-create-description"
                         id="meeting-create-description"
                         class="textarea textarea-primary w-full text-base"
                         wire:model="description"
-                        rows="4"
+                        rows="3"
                         placeholder="Enter Description Here ....."
                     ></textarea>
                 </x-meeting.form-group>
             </form>
 
-            <div class="flex gap-2 items-center justify-end w-full">
+            <div class="flex gap-3 items-center justify-end w-full">
                 <button wire:click="clear" class="btn btn-outline">Cancel</button>
                 <button wire:click="createNewMeeting" class="btn btn-primary">Create Schedule</button>
             </div>
