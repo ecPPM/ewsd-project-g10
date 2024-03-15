@@ -7,16 +7,22 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <!-- Scripts -->
-    @livewireScripts
+    <!-- Scripts & styles-->
+{{--    @livewireScripts--}}
 
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+{{--    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>--}}
 
-    <x-livewire-alert::scripts />
+{{--    <x-livewire-alert::scripts />--}}
+
+{{--    @livewireStyles--}}
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="antialiased">
+
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <x-livewire-alert::scripts />
 
     <div class="min-h-screen bg-[#F9FAFB]">
         <livewire:layout.navigation />
