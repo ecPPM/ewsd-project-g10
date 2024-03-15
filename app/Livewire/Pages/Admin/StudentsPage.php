@@ -58,7 +58,7 @@ class StudentsPage extends Component
         $this->reset('studentIds', 'assignedTutorId', 'search', 'modalOpen');
     }
 
-    public function toggleSelectAll()
+    public function toggleSelectAll(): void
     {
         if (count($this->studentIds) === count(User::where('role_id', 3)->get())) {
             $this->studentIds = [];

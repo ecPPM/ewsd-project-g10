@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('meetings', function (Blueprint $table) {
+        Schema::table('meeting', function (Blueprint $table) {
             $table->dropColumn('is_cancelled');
             $table->dropColumn('notes');
             $table->string('title')->after('tutor_id');
@@ -25,7 +25,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('meetings', function (Blueprint $table) {
+        Schema::table('meeting', function (Blueprint $table) {
             //
         });
     }

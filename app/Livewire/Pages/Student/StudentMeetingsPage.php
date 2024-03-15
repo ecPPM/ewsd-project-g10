@@ -67,6 +67,11 @@ class StudentMeetingsPage extends Component
         $this->reset(['editingNote']);
     }
 
+    public function clearAll()
+    {
+        $this->reset(['editingNote','modalAddNoteOpen','editingMeetingId']);
+    }
+
     public function render()
     {
         return view('livewire.pages.student.student-meetings-page', [
