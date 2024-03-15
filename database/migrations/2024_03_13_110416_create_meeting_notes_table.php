@@ -18,7 +18,7 @@ return new class extends Migration
 
             $table->text('content');
 
-            $table->foreign('meeting_id')->references('id')->on('meeting')->onDelete('cascade');
+            $table->foreign('meeting_id')->references('id')->on('meetings')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
