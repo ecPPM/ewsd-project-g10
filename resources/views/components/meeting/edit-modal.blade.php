@@ -5,14 +5,13 @@
     'selectedMode',
 ])
 
-
-<dialog id="newMeetingModal" {{ $attributes->class(['modal', 'modal-open' => $modalOpen]) }}>
+<dialog id="editPendingModal" {{ $attributes->class(['modal', 'modal-open' => $modalOpen]) }}>
     <div class="modal-box flex flex-col w-11/12 max-w-3xl px-5 md:px-10 pt-0 pb-4 md:pb-8">
         <div class="flex flex-col gap-8 relative">
             <div class="flex flex-col gap-4 pt-4 md:pt-8 bg-base-100 sticky top-0 left-0">
-                <h4 class="text-lg md:text-2xl font-semibold">Create Meeting Schedule</h4>
+                <h4 class="text-lg md:text-2xl font-semibold">Edit Meeting Schedule</h4>
                 <div class="h-[3px] rounded-full w-24 bg-primary"></div>
-                <button wire:click="clear" class="btn btn-sm sm:hidden z-10 btn-circle btn-ghost absolute top-2 right-0">✕</button>
+                <button wire:click="clearAll" class="btn btn-sm sm:hidden z-10 btn-circle btn-ghost absolute top-2 right-0">✕</button>
             </div>
 
             <form class="grid grid-cols-2 gap-6">
@@ -20,7 +19,7 @@
                     <input wire:model.live="title" name="title" type="text" aria-label="meeting-title"
                            class="input w-full {{  $errors->get('title')? 'input-error' : 'input-primary' }}"
                            placeholder="Enter Meeting Name" />
-                        <x-input-error :messages="$errors->get('title')" />
+                    <x-input-error :messages="$errors->get('title')" />
                 </x-meeting.form-group>
 
                 <x-meeting.form-group id="mode" label="Meeting Platform">
@@ -113,9 +112,74 @@
             </form>
 
             <div class="flex gap-3 items-center justify-end w-full">
-                <button wire:click="clear" class="btn btn-outline">Cancel</button>
-                <button wire:click="createNewMeeting" class="btn btn-primary">Create Schedule</button>
+                <button wire:click="clearAll" class="btn btn-outline">Cancel</button>
+                <button wire:click="editMeeting" class="btn btn-primary">Save Changes</button>
             </div>
         </div>
     </div>
 </dialog>
+{{--<dialog id="editPendingModal" class="modal @if($modalEditPendingOpen) modal-open @endif">--}}
+{{--    <div class="modal-box w-full flex flex-col">--}}
+{{--        <button wire:click="clearAll" class="btn btn-sm btn-circle btn-ghost absolute top-2 right-2">✕--}}
+{{--        </button>--}}
+{{--        <div class="flex flex-col gap-6">--}}
+{{--            <form class="p-5" wire:submit.prevent='editMeeting' action=''>--}}
+{{--                <div class="mb-3">--}}
+{{--                    <label for="select-student" class="block text-sm font-medium text-gray-700">Select Student</label>--}}
+{{--                    <select name="select-student" id="select-student" wire:model="selectedStudentId" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">--}}
+{{--                        @foreach($activeStudents as $student)--}}
+{{--                            <option value="{{$student->id}}">{{ $student->name }}</option>--}}
+{{--                        @endforeach--}}
+{{--                    </select>--}}
+{{--                </div>--}}
+
+{{--                <div class="mb-3">--}}
+{{--                    <label for="title" class="block text-sm font-medium text-gray-700">Meeting Name</label>--}}
+{{--                    <input wire:model="title" name="title" type="text"--}}
+{{--                           class="input input-primary"--}}
+{{--                           placeholder="Enter Meeting Name"--}}
+{{--                           value="{{ $title }}"--}}
+{{--                    />--}}
+{{--                </div>--}}
+
+{{--                <div class="mb-3">--}}
+{{--                    <label for="time" class="block text-sm font-medium text-gray-700">Meeting Date and Time</label>--}}
+{{--                    <input wire:model="time" name="time" type="text" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Meeting Date and Time" value="{{ $time }}"/>--}}
+{{--                </div>--}}
+
+{{--                <div class="mb-3">--}}
+{{--                    <label for="mode" class="block text-sm font-medium text-gray-700">Select Meeting Mode</label>--}}
+{{--                    <select name="mode" id="mode" wire:model='selectedMode' class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">--}}
+{{--                        <option value="Online">Online</option>--}}
+{{--                        <option value="In-Person">In-Person</option>--}}
+{{--                    </select>--}}
+{{--                </div>--}}
+
+{{--                <div class="mb-3">--}}
+{{--                    <label for="location" class="block text-sm font-medium text-gray-700">Enter Location</label>--}}
+{{--                    <input wire:model="location" name="location" type="text" class="grow border-none input-ghost"--}}
+{{--                           placeholder="Location" value="{{ $location }}"/>--}}
+{{--                </div>--}}
+
+{{--                <div class="mb-3">--}}
+{{--                    <label for="platform" class="block text-sm font-medium text-gray-700">Enter Platform</label>--}}
+{{--                    <input wire:model="platform" name="platform" type="text" class="grow border-none input-ghost"--}}
+{{--                           placeholder="Platform" value="{{ $platform }}"/>--}}
+{{--                </div>--}}
+
+{{--                <div class="mb-3">--}}
+{{--                    <label for="invitation-link" class="block text-sm font-medium text-gray-700">Enter Invitation Link</label>--}}
+{{--                    <input wire:model="invitationLink" name="invitation-link" type="text" class="grow border-none input-ghost"--}}
+{{--                           placeholder="Invitation Link" value="{{ $invitationLink }}"/>--}}
+{{--                </div>--}}
+
+{{--                <div class="">--}}
+{{--                    <label for="description" class="block text-sm font-medium text-gray-700">Enter Description</label>--}}
+{{--                    <textarea wire:model="description" name="description" class="grow border-none input-ghost" placeholder="Description / Notes">{{ $description }}</textarea>--}}
+{{--                </div>--}}
+
+{{--                <button class="btn btn-primary self-end">Update</button>--}}
+{{--            </form>--}}
+{{--        </div>--}}
+{{--    </div>--}}
+{{--</dialog>--}}

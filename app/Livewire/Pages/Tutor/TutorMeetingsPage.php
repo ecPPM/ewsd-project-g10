@@ -26,7 +26,6 @@ class TutorMeetingsPage extends Component
     public $selectedStudentId = 'default';
 
     #[Validate('required', message: "The meeting platform field is required.")]
-//    #[Validate('not_in:default', message: "The meeting platform field is required.")]
     public $selectedMode = 'Online';
 
     #[Validate('required')]
@@ -44,7 +43,7 @@ class TutorMeetingsPage extends Component
     public $location;
     public $platform;
 
-    #[Validate('required_if:selectedMode,==,Online', message: 'The meeting link field is required.')]
+    #[Validate('required_if:selectedMode,==,Online', message: 'The meeting invitation link field is required.')]
     public $invitationLink;
 
     public $studentResponse;
@@ -84,7 +83,7 @@ class TutorMeetingsPage extends Component
             'description' => $this->description,
         ]);
         // flash success message
-        $this->alert('success', 'Successfully created a new meeting.',[
+        $this->alert('success', 'Successfully created.',[
             'customClass' => [
                 'popup' => 'text-sm',
             ]
@@ -101,6 +100,9 @@ class TutorMeetingsPage extends Component
     {
         $meeting = Meeting::find($this->editingMeetingId);
 
+        $this->validate();
+
+
         if ($meeting) {
             $meeting->update([
                 'student_id' => $this->selectedStudentId,
@@ -114,6 +116,11 @@ class TutorMeetingsPage extends Component
                 'description' => $this->description,
             ]);
             // flash success message
+            $this->alert('success', 'Successfully updated.',[
+                'customClass' => [
+                    'popup' => 'text-sm',
+                ]
+            ]);
 
             InteractionLog::addInteractionLogEntry($this->selectedStudentId, Auth::user()->id, 3, $meeting->id);
         }
