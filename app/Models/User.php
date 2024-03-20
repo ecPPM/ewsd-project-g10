@@ -5,7 +5,6 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 use App\Http\Controllers\MailController;
-use App\Jobs\SendTutorAssignmentMail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -113,5 +112,31 @@ class User extends Authenticatable
     public function pendingMeetings()
     {
         return $this->meetings()->where('time', '>', now()->subMinutes(30));
+    }
+
+    public function posts()
+    {
+        return $this->hasMany(Post::class, 'sender_id');
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+    public function files()
+    {
+        return $this->hasMany(File::class);
+    }
+
+    public function allPosts($relatedId)
+    {
+        $sentPosts = Post::where('sender_id', $this->id )->where('receiver_id', $relatedId)->get();
+        $receivedPosts = Post::where('sender_id', $relatedId)->where('receiver_id', $this->id)->get();
+
+        // Merge the two arrays and sort them by created_at date
+        $allPosts = $sentPosts->merge($receivedPosts)->sortByDesc('created_at');
+
+        return $allPosts;
     }
 }
