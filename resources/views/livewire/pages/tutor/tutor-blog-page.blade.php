@@ -28,7 +28,33 @@
             {{ $post->content }}
         </span>
 
+        @if($post->files()->isNotEmpty())
+            <p>This post has files</p>
+            <ul>
+                @foreach($post->files() as $file)
+                    <li>
+                        <a href="{{ asset('/storage/'.$file->path) }}" download>
+                            <i class="far fa-file"></i> {{ $file->name }}
+                        </a>
+                    </li>
+                @endforeach
+            </ul>
+        @endif
+
         @endforeach
+
+        {{-- @foreach ($files as $file)
+        <div class="mt-3 flex flex-row">
+            <span class="">
+                {{ $file->name }}
+            </span>
+            <span class="ms-6">
+                {{ $post->created_at->diffForHumans() }}
+            </span>
+        </div>
+
+
+        @endforeach --}}
     </div>
 
     @if (!$newPostMode)

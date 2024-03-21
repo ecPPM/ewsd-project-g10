@@ -92,7 +92,7 @@ class TutorMeetingsPage extends Component
         $mailController = new MailController();
         $mailController->sendMeetingMail($meeting, User::find($this->selectedStudentId));
 
-        InteractionLog::addInteractionLogEntry($this->selectedStudentId, Auth::user()->id, 2, $meeting->id);
+        InteractionLog::addInteractionLogEntry(null, Auth::user()->id, 2, $meeting->id);
         $this->clear();
     }
 
@@ -122,7 +122,7 @@ class TutorMeetingsPage extends Component
                 ]
             ]);
 
-            InteractionLog::addInteractionLogEntry($this->selectedStudentId, Auth::user()->id, 3, $meeting->id);
+            InteractionLog::addInteractionLogEntry(null, Auth::user()->id, 3, $meeting->id);
         }
 
         $this->clearAll();
@@ -133,7 +133,7 @@ class TutorMeetingsPage extends Component
         $meeting = Meeting::find($id);
 
         if ($meeting) {
-            InteractionLog::addInteractionLogEntry($this->selectedStudentId, Auth::user()->id, 4, $meeting->id);
+            InteractionLog::addInteractionLogEntry(null, Auth::user()->id, 4, $meeting->id);
 
             $meeting->delete();
             // flash success message
