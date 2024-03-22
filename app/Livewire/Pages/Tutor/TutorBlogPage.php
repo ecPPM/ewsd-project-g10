@@ -18,13 +18,13 @@ class TutorBlogPage extends Component
     public $editingText;
     public $files = [];
 
-    public $newPostMode = false;
+    // public $newPostMode = false;
 
-    public function toggleNewPost()
-    {
-        $this->reset(['editingText','files']);
-        $this->newPostMode = !$this->newPostMode;
-    }
+    // public function toggleNewPost()
+    // {
+    //     $this->reset(['editingText','files']);
+    //     $this->newPostMode = !$this->newPostMode;
+    // }
 
     public function savePost()
     {
@@ -70,13 +70,11 @@ class TutorBlogPage extends Component
     public function render()
     {
         $posts = Auth::user()->allPosts($this->selectedStudentId);
-        // foreach($posts as $post) {
-        //     $relatedFiles = $post->files;
-        // }
-
+        $lastChats = Auth::user()->chats();
 
         return view('livewire.pages.tutor.tutor-blog-page', [
             'posts' => $posts,
+            'lastChats' => $lastChats,
             'activeStudents' => Auth::user()->activeStudents
         ]);
     }

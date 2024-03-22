@@ -1,4 +1,4 @@
-<div class="fixed bottom-6 left-1/2 transform -translate-x-1/2 w-5/6 flex flex-col">
+<div class="fixed bottom-6 flex flex-col">
     <form wire:submit.prevent="savePost">
         <textarea wire:model="editingText" class="w-full border rounded-lg p-2 focus:outline-none focus:ring focus:border-blue-300" rows="2" placeholder="Type your message here..."></textarea>
         <div class="flex justify-between">
