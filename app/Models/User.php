@@ -5,10 +5,10 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 use App\Http\Controllers\MailController;
-use App\Jobs\SendTutorAssignmentMail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
@@ -114,4 +114,82 @@ class User extends Authenticatable
     {
         return $this->meetings()->where('time', '>', now()->subMinutes(30));
     }
+
+    public function posts()
+    {
+        return $this->hasMany(Post::class, 'sender_id');
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+    public function files()
+    {
+        return $this->hasMany(File::class);
+    }
+
+    public function allPosts($relatedId)
+    {
+        $sentPosts = Post::where('sender_id', $this->id)->where('receiver_id', $relatedId)->get();
+        $receivedPosts = Post::where('sender_id', $relatedId)->where('receiver_id', $this->id)->get();
+
+        // Merge the two arrays and sort them by created_at date
+        $allPosts = $sentPosts->merge($receivedPosts);
+
+        return $allPosts;
+    }
+
+    public function lastChats()
+    {
+        $userId = $this->id;
+
+        $lastChats = Post::whereIn('id', function ($query) use ($userId) {
+            $query->selectRaw('MAX(id)')
+                ->from('posts')
+                ->where('sender_id', '=', $userId)
+                ->orWhere('receiver_id', '=', $userId)
+                ->groupBy('sender_id', 'receiver_id')
+                ->havingRaw('MAX(created_at)');
+        })
+        ->orderBy('created_at', 'desc')
+        ->get();
+
+        return $lastChats;
+    }
+
+    public function chats()
+    {
+        $chats = [];
+
+        foreach($this->activeStudents as $student) {
+            $chat = $this->getLastChat($student->id);
+
+            $chats[] = [
+                'student' => $student,
+                'chat' => $chat
+            ];
+        }
+
+        usort($chats, function($a, $b) {
+            if ($a['chat'] === null && $b['chat'] !== null) {
+                return 1; // $a comes after $b
+            } elseif ($a['chat'] !== null && $b['chat'] === null) {
+                return -1; // $a comes before $b
+            } else {
+                return 0; // no change in order
+            }
+        });
+
+        return $chats;
+    }
+
+    public function getLastChat($id){
+        return Post::where('sender_id', '=', $id)
+        ->orWhere('receiver_id', '=', $id)
+        ->latest('created_at')
+        ->first();
+    }
+
 }
