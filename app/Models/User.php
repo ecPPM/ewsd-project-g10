@@ -136,34 +136,42 @@ class User extends Authenticatable
         $receivedPosts = Post::where('sender_id', $relatedId)->where('receiver_id', $this->id)->get();
 
         // Merge the two arrays and sort them by created_at date
-        $allPosts = $sentPosts->merge($receivedPosts);
+        $allPosts = $sentPosts->merge($receivedPosts)->sortBy('created_at');
 
         return $allPosts;
     }
 
-    public function lastChats()
-    {
-        $userId = $this->id;
+    // public function lastChats()
+    // {
+    //     $userId = $this->id;
 
-        $lastChats = Post::whereIn('id', function ($query) use ($userId) {
-            $query->selectRaw('MAX(id)')
-                ->from('posts')
-                ->where('sender_id', '=', $userId)
-                ->orWhere('receiver_id', '=', $userId)
-                ->groupBy('sender_id', 'receiver_id')
-                ->havingRaw('MAX(created_at)');
-        })
-        ->orderBy('created_at', 'desc')
-        ->get();
+    //     $lastChats = Post::whereIn('id', function ($query) use ($userId) {
+    //         $query->selectRaw('MAX(id)')
+    //             ->from('posts')
+    //             ->where('sender_id', '=', $userId)
+    //             ->orWhere('receiver_id', '=', $userId)
+    //             ->groupBy('sender_id', 'receiver_id')
+    //             ->havingRaw('MAX(created_at)');
+    //     })
+    //     ->orderBy('created_at', 'desc')
+    //     ->get();
 
-        return $lastChats;
-    }
+    //     return $lastChats;
+    // }
 
-    public function chats()
+    public function chats($inputText=null)
     {
         $chats = [];
 
-        foreach($this->activeStudents as $student) {
+        $students = $this->activeStudents;
+        if ($inputText) {
+            $students = $students->filter(function ($student) use ($inputText) {
+                return strpos(strtolower($student->name), strtolower($inputText)) !== false;
+            });
+        }
+
+
+        foreach($students as $student) {
             $chat = $this->getLastChat($student->id);
 
             $chats[] = [
@@ -177,6 +185,9 @@ class User extends Authenticatable
                 return 1; // $a comes after $b
             } elseif ($a['chat'] !== null && $b['chat'] === null) {
                 return -1; // $a comes before $b
+            } elseif ($a['chat'] !== null && $b['chat'] !== null) {
+                // Compare by created_at timestamp if both chats exist
+                return $b['chat']->created_at <=> $a['chat']->created_at;
             } else {
                 return 0; // no change in order
             }
@@ -190,6 +201,23 @@ class User extends Authenticatable
         ->orWhere('receiver_id', '=', $id)
         ->latest('created_at')
         ->first();
+    }
+
+    public function hasUnreadMessagesByTutor()
+    {
+        return Notification::where('sender_id', '=', $this->id)
+        ->where('receiver_id', '=', $this->activeTutor()->id)
+        ->where('read_at', '=', null)
+        ->exists();
+    }
+
+    public function showValues()
+    {
+        return [
+            'sender_id' => $this->id,
+            'receiver_id' => $this->activeTutor()->id,
+            'noti' => $this->hasUnreadMessagesByTutor() ? 'yes' : 'no'
+        ];
     }
 
 }
