@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use App\Livewire\Forms\LoginForm;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Session;
@@ -20,11 +21,24 @@ new #[Layout('layouts.guest')] class extends Component {
 
         Session::regenerate();
 
+        auth()->user()->update([
+            'last_logged_in' => now()
+        ]);
+
         $redirectTo = RouteServiceProvider::HOME;
 
         if (auth()->user()->role->name == 'admin') {
             $redirectTo = RouteServiceProvider::ADMIN_HOME;
         }
+
+        //update last login
+        // $user = User::find(auth()->user()->id);
+
+        // if($user) {
+        //     $user->update([
+        //         'last_logged_in' => "2024-03-25 10:00:08"
+        //     ]);
+        // }
 
         $this->redirectIntended($redirectTo, navigate: true);
     }
