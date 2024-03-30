@@ -7,7 +7,7 @@
             <!-- Chatting content here -->
             <div class="px-6 pt-4 flex flex-col gap-2 overflow-y-auto custom-scrollbar bg-base-100" id="chat-container">
                 @foreach ($posts as $post)
-                    @if($post->content !== "Please check the following file(s)")
+                    @if($post->content != "" && $post->content != "Please check the following file(s)")
                         @if ($post->sender_id === Auth::user()->id)
                             <div class="chat chat-end flex flex-col gap-1">
                                 <div class="chat-bubble chat-bubble-primary">{{ $post->content }}</div>

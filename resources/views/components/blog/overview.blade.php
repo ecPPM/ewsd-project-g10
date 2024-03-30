@@ -27,7 +27,7 @@
                 <span class="text-sm font-medium me-2">You:</span>
             @endif
 
-            @if($data['chat']->content !== "Please check the following file(s)")
+            @if($data['chat']->content != "Please check the following file(s)" && $data['chat']->content != "")
                 <span class="text-sm">
                     <p class="@if (!$data['student']->hasUnreadMessagesByTutor()) text-gray-500 @else  font-bold @endif">
                         {{ Str::limit($data['chat']->content, $limit = 30, $end = '...') }}

@@ -107,9 +107,7 @@ class TutorBlogPage extends Component
         });
 
         return view('livewire.pages.tutor.tutor-blog-page', [
-            'posts' => collect($posts)->filter(function ($post) {
-                return $post->content != "";
-            }),
+            'posts' => $posts,
             'lastChats' => $lastChats,
             'activeChats' => $activeChats,
             'selectedStudent' => $this->selectedStudentId == 'default' ? null : User::find($this->selectedStudentId)

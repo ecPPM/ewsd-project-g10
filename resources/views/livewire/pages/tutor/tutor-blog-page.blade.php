@@ -63,7 +63,7 @@
 
                 <div class="flex px-6 flex-1 flex-col gap-2 overflow-y-auto custom-scrollbar py-4" id="chat-container">
                     @foreach ($posts as $post)
-                        @if($post->content !== "Please check the following file(s)")
+                        @if($post->content != "" && $post->content != "Please check the following file(s)")
                             @if ($post->sender_id === Auth::user()->id)
                                 <div class="chat chat-end flex flex-col gap-1">
                                     <div class="chat-bubble chat-bubble-primary">{{ $post->content }}</div>
