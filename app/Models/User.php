@@ -25,6 +25,7 @@ class User extends Authenticatable
         'email',
         'password',
         'role_id',
+        'last_logged_in'
     ];
 
     /**
@@ -209,15 +210,6 @@ class User extends Authenticatable
         ->where('receiver_id', '=', $this->activeTutor()->id)
         ->where('read_at', '=', null)
         ->exists();
-    }
-
-    public function showValues()
-    {
-        return [
-            'sender_id' => $this->id,
-            'receiver_id' => $this->activeTutor()->id,
-            'noti' => $this->hasUnreadMessagesByTutor() ? 'yes' : 'no'
-        ];
     }
 
 }

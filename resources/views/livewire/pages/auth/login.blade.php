@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use App\Livewire\Forms\LoginForm;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Session;
@@ -19,6 +20,10 @@ new #[Layout('layouts.guest')] class extends Component {
         $this->form->authenticate();
 
         Session::regenerate();
+
+        auth()->user()->update([
+            'last_logged_in' => now()
+        ]);
 
         $redirectTo = RouteServiceProvider::HOME;
 
