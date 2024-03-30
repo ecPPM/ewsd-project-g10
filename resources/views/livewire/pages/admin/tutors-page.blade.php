@@ -39,7 +39,8 @@
                         <td>{{ $tutor->email }}</td>
                         <td>{{$tutor->studentCount}}</td>
                         {{--                    <td>{{ $tutor->created_at->format('d M Y') }}</td>--}}
-                        <td>{{ $tutor->last_login_at ? $tutor->last_login_at->format('d/M/Y h:m') : 'Never' }}</td>
+                        {{-- <td>{{ $tutor->last_logged_in ? $tutor->last_logged_in->format('d/M/Y h:m') : 'Never' }}</td> --}}
+                        <td>{{ $tutor->last_logged_in ?? 'Never' }}</td>
                         <td class="action pr-2">
                             <div class="w-2 h-2">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
