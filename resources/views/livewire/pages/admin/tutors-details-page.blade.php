@@ -14,7 +14,8 @@
             </li>
             <li>
                 <label>Last Login :</label>
-                <span>{{ $tutor->last_logged_in ? $tutor->last_logged_in->format('d/m/Y h:m') : "Never" }}</span>
+                {{-- <span>{{ $tutor->last_logged_in ? $tutor->last_logged_in->format('d/m/Y h:m') : "Never" }}</span> --}}
+                <span>{{ $tutor->last_logged_in ?? "Never" }}</span>
             </li>
         </ul>
     </section>
