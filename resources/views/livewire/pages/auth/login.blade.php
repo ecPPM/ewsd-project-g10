@@ -31,15 +31,6 @@ new #[Layout('layouts.guest')] class extends Component {
             $redirectTo = RouteServiceProvider::ADMIN_HOME;
         }
 
-        //update last login
-        // $user = User::find(auth()->user()->id);
-
-        // if($user) {
-        //     $user->update([
-        //         'last_logged_in' => "2024-03-25 10:00:08"
-        //     ]);
-        // }
-
         $this->redirectIntended($redirectTo, navigate: true);
     }
 }; ?>
