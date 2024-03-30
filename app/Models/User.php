@@ -159,7 +159,7 @@ class User extends Authenticatable
     //     return $lastChats;
     // }
 
-    public function chats($inputText=null)
+    public function chats($inputText = null)
     {
         $chats = [];
 
@@ -171,7 +171,7 @@ class User extends Authenticatable
         }
 
 
-        foreach($students as $student) {
+        foreach ($students as $student) {
             $chat = $this->getLastChat($student->id);
 
             $chats[] = [
@@ -180,7 +180,7 @@ class User extends Authenticatable
             ];
         }
 
-        usort($chats, function($a, $b) {
+        usort($chats, function ($a, $b) {
             if ($a['chat'] === null && $b['chat'] !== null) {
                 return 1; // $a comes after $b
             } elseif ($a['chat'] !== null && $b['chat'] === null) {
@@ -196,19 +196,20 @@ class User extends Authenticatable
         return $chats;
     }
 
-    public function getLastChat($id){
+    public function getLastChat($id)
+    {
         return Post::where('sender_id', '=', $id)
-        ->orWhere('receiver_id', '=', $id)
-        ->latest('created_at')
-        ->first();
+            ->orWhere('receiver_id', '=', $id)
+            ->latest('created_at')
+            ->first();
     }
 
     public function hasUnreadMessagesByTutor()
     {
         return Notification::where('sender_id', '=', $this->id)
-        ->where('receiver_id', '=', $this->activeTutor()->id)
-        ->where('read_at', '=', null)
-        ->exists();
+            ->where('receiver_id', '=', $this->activeTutor()->id)
+            ->where('read_at', '=', null)
+            ->exists();
     }
 
     public function showValues()
