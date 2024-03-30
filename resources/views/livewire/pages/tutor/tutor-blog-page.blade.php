@@ -27,15 +27,23 @@
                             />
                         @endforeach
                     @else
-                        <p class="text-center text-base-content/75 text-sm">Search not found.</p>
+                        <p class="text-center text-base-content/75 text-sm mt-16">Search not found.</p>
                     @endif
                 @else
-                    @foreach ($activeChats as $chat)
-                        <x-blog.overview
-                            :data="$chat"
-                            :selected-student="$selectedStudent"
-                        />
-                    @endforeach
+                    @if(count($activeChats) > 0)
+                        @foreach ($activeChats as $chat)
+                            <x-blog.overview
+                                :data="$chat"
+                                :selected-student="$selectedStudent"
+                            />
+                        @endforeach
+                    @else
+                        <p class="text-center text-base-content/75 text-sm mt-16">
+                            No
+                            recent chat
+                            history
+                            yet.</p>
+                    @endif
                 @endif
             </section>
         </div>
@@ -80,7 +88,7 @@
                             @foreach($post->files() as $file)
                                 <div
                                     class="w-full flex flex-col gap-1 rounded-md text-sm {{$post->sender_id === Auth::user()->id? "items-end": "items-start"}}">
-                                    <a class="bg-base-200 w-fit flex items-center px-4 py-3 rounded-lg"
+                                    <a class="bg-base-300 w-fit flex items-center px-4 py-3 rounded-lg"
                                        href="{{ asset('/storage/'.$file->path) }}" download>
                                         <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4"
                                              viewBox="0 0 384 512">

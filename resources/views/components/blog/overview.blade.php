@@ -11,12 +11,14 @@
      class="px-6 py-[18px] border-b last:border-none bg-base-100 hover:bg-base-300 transition-colors duration-100 cursor-pointer {{$selectedStudent && $data["student"]->id === $selectedStudent->id ? "bg-base-200": ""}}">
     <div class="flex items-center justify-between">
         <span class="text-base font-semibold">{{ $data['student']->name }}</span>
-        <span class="text-xs text-gray-500">
-            {{ $data['chat'] ? $data['chat']->created_at->diffForHumans() : '' }}
+        <div class="flex items-center gap-2">
+            <span class="text-xs text-gray-500">
+                {{ $data['chat'] ? $data['chat']->created_at->diffForHumans() : '' }}
+            </span>
             @if ($hasUnreadMessages)
-                <span class="badge badge-primary badge-xs"></span>
+                <div class="w-2 h-2 rounded-full bg-primary"></div>
             @endif
-        </span>
+        </div>
     </div>
 
     @if ($data['chat'])
