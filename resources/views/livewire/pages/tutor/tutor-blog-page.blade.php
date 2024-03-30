@@ -61,7 +61,7 @@
                     </span>
                 </div>
 
-                <div class="flex px-6 flex-1 flex-col gap-2 overflow-y-auto custom-scrollbar py-4" id="chat-container">
+                <div class="flex px-6 flex-1 flex-col gap-3 overflow-y-auto custom-scrollbar py-4" id="chat-container">
                     @foreach ($posts as $post)
                         @if($post->content != "" && $post->content != "Please check the following file(s)")
                             @if ($post->sender_id === Auth::user()->id)
@@ -87,7 +87,12 @@
                         @if($post->files()->isNotEmpty())
                             @foreach($post->files() as $file)
                                 <div
-                                    class="w-full flex flex-col gap-1 rounded-md text-sm {{$post->sender_id === Auth::user()->id? "items-end": "items-start"}}">
+                                    class="w-full py-1 flex flex-col gap-1 rounded-md text-sm {{$post->sender_id === Auth::user()->id? "items-end": "items-start"}}">
+                                    @if ($post->sender_id !== Auth::user()->id)
+                                        <div class="chat-header text-sm text-base-content/75">
+                                            {{ $post->sender->name }}
+                                        </div>
+                                    @endif
                                     <a class="bg-base-300 w-fit flex items-center px-4 py-3 rounded-lg"
                                        href="{{ asset('/storage/'.$file->path) }}" download>
                                         <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4"

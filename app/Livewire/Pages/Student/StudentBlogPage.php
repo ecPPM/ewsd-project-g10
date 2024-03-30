@@ -73,8 +73,7 @@ class StudentBlogPage extends Component
 
     public function render()
     {
-        $posts = Auth::user()->allPosts(Auth::user()->activeTutor()->id);
-
+        $posts = Auth::user()->activeTutor() ? Auth::user()->allPosts(Auth::user()->activeTutor()->id) : [];
         return view('livewire.pages.student.student-blog-page', [
             'posts' => $posts,
         ]);
