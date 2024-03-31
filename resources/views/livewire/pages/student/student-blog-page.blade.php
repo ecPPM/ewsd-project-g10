@@ -6,7 +6,7 @@
             <div class="relative flex flex-col flex-grow">
                 <h2 class="main-title mb-6">Chat with Tutor</h2>
                 <!-- Chatting content here -->
-                <div class="px-6 pt-4 flex flex-col gap-3 overflow-y-auto custom-scrollbar bg-base-100"
+                <div class="px-6 pt-4 flex flex-1 flex-col gap-3 overflow-y-auto custom-scrollbar bg-base-100"
                      id="chat-container">
                     @foreach ($posts as $post)
                         @if($post->content != "" && $post->content != "Please check the following file(s)")
@@ -102,7 +102,6 @@
                     </div>
                 </div>
             </div>
-
         @else
             <div class="flex items-center justify-center w-full">No tutor assigned</div>
         @endif
