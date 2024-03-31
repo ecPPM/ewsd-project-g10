@@ -21,9 +21,9 @@ export default {
                     ...require("daisyui/src/theming/themes")["winter"],
                     // See default theme colors -> node_modules/daisyui/src/theming/themes.js
                     // Custom theme colors here
-                    "primary": "#0069FF",
-                    "secondary": "#463AA2",
-                    "accent": "#C148AC",
+                    primary: "#0069FF",
+                    secondary: "#463AA2",
+                    accent: "#C148AC",
                     neutral: "#111928",
                     "base-100": "#FFFFFF",
 

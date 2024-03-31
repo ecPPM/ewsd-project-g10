@@ -29,13 +29,14 @@ class StudentBlogPage extends Component
         InteractionLog::addInteractionLogEntry(Auth::user()->id, null, 9, $post->id);
 
         // Upload files if there are files
-        if (!empty($this->files)) $this->uploadFile('post',$post->id);
+        if (!empty($this->files)) $this->uploadFile('post', $post->id);
 
         // success flash message
 
 
         // Create notification
         $this->makeNotification();
+        $this->reset(['editingText', 'files']);
     }
 
     public function uploadFile($fileableType, $fileableId)
@@ -72,7 +73,7 @@ class StudentBlogPage extends Component
 
     public function render()
     {
-        $posts = Auth::user()->allPosts(Auth::user()->activeTutor()->id);
+        $posts = Auth::user()->activeTutor() ? Auth::user()->allPosts(Auth::user()->activeTutor()->id) : [];
         return view('livewire.pages.student.student-blog-page', [
             'posts' => $posts,
         ]);

@@ -28,6 +28,11 @@
             :editing-note="$editingNote"
             :modal-open="$modalEditFinshedOpen"
         />
+
+        <x-meeting.delete-modal
+            wire:key="delete-{{$editingMeetingId}}-modal"
+            :modal-open="$modalDeleteOpen"
+        />
     </div>
 
 
@@ -57,9 +62,9 @@
                     <x-meeting.card :meeting="$meeting" />
                 @endforeach
             </dvi>
-        <div class="md:self-end md:w-[200px]">
-            {{ $finishedMeetings->links('vendor.livewire.simple-pagination', data: ['scrollTo' => false]) }}
-        </div>
+            <div class="md:self-end md:w-[200px]">
+                {{ $finishedMeetings->links('vendor.livewire.simple-pagination', data: ['scrollTo' => false]) }}
+            </div>
         @else
             <div class="w-full flex justify-center items-center shadow-normal rounded-[12px] bg-base-100 py-12">
                 <h4 class="font-medium text-base-content/80">No previous schedule yet!</h4>
