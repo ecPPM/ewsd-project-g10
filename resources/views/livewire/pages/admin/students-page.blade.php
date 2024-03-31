@@ -99,8 +99,7 @@
                             @endif
                         </td>
                         <td>{{ $student->created_at->format('d/m/Y h:m') }}</td>
-                        {{-- <td>{{$student->last_logged_in ? $student->last_logged_in->format('d/m/Y h:m') : "Never"}}</td> --}}
-                        <td>{{$student->last_logged_in ?? "Never"}}</td>
+                        <td>{{$student->last_logged_in ? date('d/m/Y h:m',strtotime($student->last_logged_in)) : "Never"}}</td>
                         <td class="action pr-2">
                             <div class="w-2 h-2">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">

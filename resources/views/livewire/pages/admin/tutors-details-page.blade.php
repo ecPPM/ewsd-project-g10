@@ -14,8 +14,7 @@
             </li>
             <li>
                 <label>Last Login :</label>
-                {{-- <span>{{ $tutor->last_logged_in ? $tutor->last_logged_in->format('d/m/Y h:m') : "Never" }}</span> --}}
-                <span>{{ $tutor->last_logged_in ?? "Never" }}</span>
+                <span>{{$tutor->last_logged_in ? date('d/m/Y h:m',strtotime($tutor->last_logged_in)) : "Never"}}</span>
             </li>
         </ul>
     </section>
@@ -46,8 +45,8 @@
                     <tr class="hover:bg-base-200">
                         <td>{{ $student->name }}</td>
                         <td>{{ $student->email }}</td>
-                        <td>{{ $student->created_at->format('d M Y') }}</td>
-                        <td>{{ $student->last_login_at ? $tutor->last_login_at->format('d/M/Y h:m') : 'Never' }}</td>
+                        <td>{{ $student->created_at->format('d/m/Y h:m') }}</td>
+                        <td>{{$student->last_logged_in ? date('d/m/Y h:m',strtotime($student->last_logged_in)) : "Never"}}</td>
                     </tr>
                 @endforeach
                 </tbody>
