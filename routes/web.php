@@ -58,7 +58,7 @@ Route::middleware(['auth', 'role:admin'])->get('/tutors', [AdminController::clas
 
 Route::middleware(['auth', 'role:admin'])->get('/tutors/{id}', [AdminController::class, 'tutorDetails'])->name('tutor-details');
 
-Route::middleware(['auth', 'role:admin'])->get('/reports', [AdminController::class, 'reports'])->name('reports');
+//Route::middleware(['auth', 'role:admin'])->get('/reports', [AdminController::class, 'reports'])->name('reports');
 
 /*
 |--------------------------------------------------------------------------

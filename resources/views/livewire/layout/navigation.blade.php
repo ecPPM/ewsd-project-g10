@@ -62,10 +62,10 @@ new class extends Component {
                             {{ __('Tutors') }}
                         </x-nav-link>
 
-                        <x-nav-link :href="route('reports')"
-                                    :active="request()->routeIs('reports')"
+                        <x-nav-link :href="route('dashboard')"
+                                    :active="request()->routeIs('dashboard')"
                                     wire:navigate>
-                            {{ __('Reports') }}
+                            {{ __('Dashboard') }}
                         </x-nav-link>
                     @endif
                     {{-- ADMIN ROUTES END --}}
@@ -142,9 +142,9 @@ new class extends Component {
                     {{ __('Tutors') }}
                 </x-responsive-nav-link>
 
-                <x-responsive-nav-link :href="route('reports')" :active="request()->routeIs('reports')"
+                <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')"
                                        wire:navigate>
-                    {{ __('Reports') }}
+                    {{ __('Dashboard') }}
                 </x-responsive-nav-link>
             @endif
         </div>
