@@ -23,11 +23,11 @@
         try {
             const element = document.getElementById(id);
             window.navigator.clipboard.writeText(element.textContent);
-            const tooltip = document.getElementById(`tooltip-${id}`)
-            tooltip.classList.add('tooltip', 'tooltip-open')
+            const tooltip = document.getElementById(`tooltip-${id}`);
+            tooltip.classList.add("tooltip", "tooltip-open");
             setTimeout(() => {
                 tooltip.classList.remove("tooltip", "tooltip-open");
-            }, 1000)
+            }, 1000);
         } catch (err) {
             console.log(err);
         }
@@ -39,15 +39,21 @@
         <div class="flex items-center justify-between w-full">
             <h3 class="text-base text-neutral font-medium">{{ $name }}</h3>
             @if($isPending && !$isActive && auth()->user()->role->id === 2)
-                <button class="btn btn-sm btn-ghost" wire:click="handleEditClick('pending',{{ $id }})">
-                    <div class="h-auto w-[5px]">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 512" fill="#676767">
-                            <!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
-                            <path
-                                d="M64 360a56 56 0 1 0 0 112 56 56 0 1 0 0-112zm0-160a56 56 0 1 0 0 112 56 56 0 1 0 0-112zM120 96A56 56 0 1 0 8 96a56 56 0 1 0 112 0z" />
-                        </svg>
+                <div class="dropdown dropdown-end">
+                    <div tabindex="0" role="button" class="btn btn-sm btn-ghost">
+                        <div class="h-auto w-[5px]">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 512" fill="#676767">
+                                <!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                                <path
+                                    d="M64 360a56 56 0 1 0 0 112 56 56 0 1 0 0-112zm0-160a56 56 0 1 0 0 112 56 56 0 1 0 0-112zM120 96A56 56 0 1 0 8 96a56 56 0 1 0 112 0z" />
+                            </svg>
+                        </div>
                     </div>
-                </button>
+                    <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-40">
+                        <li><a wire:click="handleEditClick('pending',{{ $id }})">View Detail</a></li>
+                        <li><a wire:click="handleDeleteClick({{$id}})">Delete</a></li>
+                    </ul>
+                </div>
             @endif
         </div>
 

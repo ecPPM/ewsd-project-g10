@@ -34,6 +34,8 @@ class TutorBlogPage extends Component
     {
         $this->selectedStudentId = $id;
 
+        $this->reset(['search']);
+
         // mark notifications as read
 
         $this->markAsRead($id);
@@ -41,7 +43,7 @@ class TutorBlogPage extends Component
 
     public function send()
     {
-        if(!$this->editingText && empty($this->files)) return;
+        if (!$this->editingText && empty($this->files)) return;
 
         $post = Post::create([
             'sender_id' => Auth::user()->id,
@@ -52,7 +54,7 @@ class TutorBlogPage extends Component
         InteractionLog::addInteractionLogEntry(null, Auth::user()->id, 9, $post->id);
 
         // Upload files if there are files
-        if (!empty($this->files)) $this->uploadFile('post',$post->id);
+        if (!empty($this->files)) $this->uploadFile('post', $post->id);
 
         // success flash message
 
@@ -100,10 +102,14 @@ class TutorBlogPage extends Component
     {
         $posts = Auth::user()->allPosts($this->selectedStudentId);
         $lastChats = Auth::user()->chats($this->search);
+        $activeChats = collect($lastChats)->filter(function ($chat) {
+            return $chat['chat'] != null;
+        });
 
         return view('livewire.pages.tutor.tutor-blog-page', [
             'posts' => $posts,
             'lastChats' => $lastChats,
+            'activeChats' => $activeChats,
             'selectedStudent' => $this->selectedStudentId == 'default' ? null : User::find($this->selectedStudentId)
         ]);
     }

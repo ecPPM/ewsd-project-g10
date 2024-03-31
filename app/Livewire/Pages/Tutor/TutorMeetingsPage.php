@@ -39,7 +39,7 @@ class TutorMeetingsPage extends Component
     #[Validate('required')]
     public $meetingTime;
 
-    #[Validate('required_if:selectedMode,==,In-Person',message: 'The location field is required.')]
+    #[Validate('required_if:selectedMode,==,In-Person', message: 'The location field is required.')]
     public $location;
     public $platform;
 
@@ -63,6 +63,10 @@ class TutorMeetingsPage extends Component
     public $modalEditPendingOpen = false;
     public $modalEditFinshedOpen = false;
 
+    public $deletingMeetingId;
+
+    public $modalDeleteOpen = false;
+
 
     //public $editingMeeting;
 
@@ -83,7 +87,7 @@ class TutorMeetingsPage extends Component
             'description' => $this->description,
         ]);
         // flash success message
-        $this->alert('success', 'Successfully created.',[
+        $this->alert('success', 'Successfully created.', [
             'customClass' => [
                 'popup' => 'text-sm',
             ]
@@ -116,7 +120,7 @@ class TutorMeetingsPage extends Component
                 'description' => $this->description,
             ]);
             // flash success message
-            $this->alert('success', 'Successfully updated.',[
+            $this->alert('success', 'Successfully updated.', [
                 'customClass' => [
                     'popup' => 'text-sm',
                 ]
@@ -128,9 +132,17 @@ class TutorMeetingsPage extends Component
         $this->clearAll();
     }
 
-    public function deleteMeeting($id)
+    public function deleteMeeting()
     {
-        $meeting = Meeting::find($id);
+        if (!$this->deletingMeetingId) {
+            return;
+        }
+
+        $meeting = Meeting::find($this->deletingMeetingId);
+
+        if (!$meeting) {
+            return;
+        }
 
         if ($meeting) {
             InteractionLog::addInteractionLogEntry(null, Auth::user()->id, 4, $meeting->id);
@@ -138,13 +150,22 @@ class TutorMeetingsPage extends Component
             $meeting->delete();
             // flash success message
         }
+
+        $this->clearAll();
+
+        // flash success message
+        $this->alert('success', 'Successfully deleted.', [
+            'customClass' => [
+                'popup' => 'text-sm',
+            ]
+        ]);
     }
 
     // --------------- CREATE MEETING -----------------
 
     public function toggleModal()
     {
-        if(!$this->modalOpen){
+        if (!$this->modalOpen) {
             $this->meetingDate = now()->format('Y-m-d');
             $this->meetingTime = now()->format('H:i');
         }
@@ -172,6 +193,12 @@ class TutorMeetingsPage extends Component
         $this->setMeetingDetails();
     }
 
+    public function handleDeleteClick($meetingId)
+    {
+        $this->deletingMeetingId = $meetingId;
+        $this->toggleDeleteModal();
+    }
+
     public function toggleEditPendingModal()
     {
         $this->modalEditPendingOpen = !$this->modalEditPendingOpen;
@@ -182,9 +209,14 @@ class TutorMeetingsPage extends Component
         $this->modalEditFinshedOpen = !$this->modalEditFinshedOpen;
     }
 
+    public function toggleDeleteModal()
+    {
+        $this->modalDeleteOpen = !$this->modalDeleteOpen;
+    }
+
     public function clearAll()
     {
-        $this->reset(['editingMeetingId', 'selectedStudentId', 'selectedMode', 'title', 'time', 'location', 'platform', 'invitationLink', 'description', 'notes', 'modalEditPendingOpen', 'modalEditFinshedOpen']);
+        $this->reset(['editingMeetingId', 'selectedStudentId', 'selectedMode', 'title', 'time', 'location', 'platform', 'invitationLink', 'description', 'notes', 'modalEditPendingOpen', 'modalEditFinshedOpen', 'modalDeleteOpen', 'deletingMeetingId']);
     }
 
     public function setMeetingDetails()
@@ -207,6 +239,7 @@ class TutorMeetingsPage extends Component
             $this->notes = $editingMeeting->notes;
         }
     }
+
     // -----------   Add Note   ------------
     public function addNote()
     {
@@ -229,8 +262,8 @@ class TutorMeetingsPage extends Component
 
     public function getDateTime()
     {
-        if(isset($this->meetingDate) && isset($this->meetingTime)){
-            $dateTime =new DateTime($this->meetingDate . ' ' . $this->meetingTime);
+        if (isset($this->meetingDate) && isset($this->meetingTime)) {
+            $dateTime = new DateTime($this->meetingDate . ' ' . $this->meetingTime);
             return $dateTime->format('Y-m-d H:i');
         } else {
             return now();
@@ -243,7 +276,7 @@ class TutorMeetingsPage extends Component
     {
         return view('livewire.pages.tutor.tutor-meetings-page', [
             'pendingMeetings' => Auth::user()->pendingMeetings()->orderBy('time')->get(),
-            'finishedMeetings' => Auth::user()->finishedMeetings()->orderBy('time','desc')->paginate(6),
+            'finishedMeetings' => Auth::user()->finishedMeetings()->orderBy('time', 'desc')->paginate(6),
             'activeStudents' => Auth::user()->activeStudents()->get(),
         ]);
     }
