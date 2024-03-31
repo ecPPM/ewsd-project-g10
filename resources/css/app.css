@@ -32,20 +32,25 @@ body {
 }
 
 table.app-table {
-    @apply w-full border-collapse overflow-x-scroll;
+    @apply w-full border-collapse overflow-x-scroll bg-base-100 rounded-md mt-2;
 }
 
 table.app-table th {
-    @apply text-sm text-base-content/60 py-4;
+    @apply text-base font-semibold text-base-content/60 py-4 uppercase;
 }
 
 table.app-table td {
-    @apply text-sm text-base-content py-3 border-b border-t border-b-slate-500 border-opacity-20;
+    @apply text-sm text-base-content py-4 border-b border-t border-b-slate-500 border-opacity-20;
 }
 
 table.app-table th:not(.action),
 table.app-table td:not(.action) {
     @apply px-6 whitespace-nowrap;
+}
+
+table.app-table th.action,
+table.app-table td.action {
+    @apply px-4;
 }
 
 ul.app-list {
