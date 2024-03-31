@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AllocationController;
+use App\Http\Controllers\CommonController;
 use App\Http\Controllers\MeetingController;
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\TutorController;
@@ -33,7 +34,7 @@ Route::redirect('/', '/login');
 | Common Routes
 |--------------------------------------------------------------------------
 */
-Route::middleware(['auth', 'role:tutor,student'])->get('/dashboard', [AllocationController::class, 'dashboard'])->name('dashboard');
+Route::middleware(['auth', 'role:admin,tutor,student'])->get('/dashboard', [CommonController::class, 'dashboard'])->name('dashboard');
 
 //Route::view('profile', 'profile')->middleware(['auth'])->name('profile');
 
@@ -57,7 +58,7 @@ Route::middleware(['auth', 'role:admin'])->get('/tutors', [AdminController::clas
 
 Route::middleware(['auth', 'role:admin'])->get('/tutors/{id}', [AdminController::class, 'tutorDetails'])->name('tutor-details');
 
-Route::middleware(['auth', 'role:admin'])->get('/reports', [AdminController::class, 'reports'])->name('reports');
+//Route::middleware(['auth', 'role:admin'])->get('/reports', [AdminController::class, 'reports'])->name('reports');
 
 /*
 |--------------------------------------------------------------------------

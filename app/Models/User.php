@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 use App\Http\Controllers\MailController;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -211,6 +212,48 @@ class User extends Authenticatable
             ->where('receiver_id', '=', $this->activeTutor()->id)
             ->where('read_at', '=', null)
             ->exists();
+    }
+
+    public function getActivityGrade()
+    {
+        $sevenDaysAgo = Carbon::now()->subDays(7);
+
+        $interactionCount = InteractionLog::where('student_id', $this->id)
+            ->where('created_at', '>=', $sevenDaysAgo)
+            ->count();
+
+        if ($interactionCount >= 7) {
+            return 'Most Active';
+        } elseif ($interactionCount > 1 && $interactionCount < 7) {
+            return 'Active';
+        } else {
+            return 'Inactive';
+        }
+    }
+
+    public function getLastInteractionTime()
+    {
+        $lastInteraction = InteractionLog::where('student_id', $this->id)
+            ->latest('created_at')
+            ->first();
+
+        if ($lastInteraction) {
+            return Carbon::parse($lastInteraction->created_at)->diffForHumans();
+        }
+
+        return '-';
+    }
+
+    public function pageViews()
+    {
+        return $this->hasMany(PageView::class);
+    }
+
+    public function getLastBrowser()
+    {
+        return $this->pageViews()
+            ->latest()
+            ->value('browser');
     }
 
 }
