@@ -5,8 +5,7 @@
 ])
 
 <script>
-    Livewire;
-    const toggleCollapse = () => {
+    function toggleCollapse() {
         const element = document.getElementById("edit-collapse");
         console.log(element.classList.contains("collapse-open"));
         if (element.classList.contains("collapse-open")) {
@@ -14,7 +13,7 @@
         } else {
             element.classList.add("collapse-open");
         }
-    };
+    }
 </script>
 
 <dialog id="editFinishedModal" {{ $attributes->class(['modal', 'modal-open' => $modalOpen]) }}>
