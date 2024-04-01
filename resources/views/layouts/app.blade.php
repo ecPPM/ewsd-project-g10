@@ -8,7 +8,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts & styles-->
-    @livewireScripts
+    {{-- @livewireScripts --}}
 
     {{--    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>--}}
 
@@ -48,5 +48,6 @@
         </aside>
     </footer>
 </div>
+@livewireScripts
 </body>
 </html>
