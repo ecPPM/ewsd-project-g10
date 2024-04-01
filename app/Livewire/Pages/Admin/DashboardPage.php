@@ -39,7 +39,31 @@ class DashboardPage extends Component
             ->orderByDesc('views')
             ->get();
 
-        return $pageViewsData;
+        return collect($pageViewsData)->map(function ($item) {
+            switch ($item->page_url) {
+                case '/dashboard':
+                    $item->page_url = 'Dashboard';
+                    break;
+                case '/students':
+                    $item->page_url = 'Students List';
+                    break;
+                case '/tutors':
+                    $item->page_url = 'Tutors List';
+                    break;
+                case '/students/id':
+                    $item->page_url = 'Student Details';
+                    break;
+                case '/tutors/id':
+                    $item->page_url = 'Tutor Details';
+                    break;
+                case '/meetings':
+                    $item->page_url = 'Scheduling';
+                    break;
+            }
+            if ($item->page_url == '/dashboard')
+                $item->page_url = 'Dashboard';
+            return $item;
+        });
     }
 
     public function getInactiveStudents($inactiveDays)
@@ -47,28 +71,40 @@ class DashboardPage extends Component
         $inactiveDate = Carbon::now()->subDays($inactiveDays);
 
         $inactiveStudents = User::where('role_id', '=', 3) // Assuming student role_id is 1
-            ->whereNotExists(function ($query) use ($inactiveDate) {
-                $query->select(DB::raw(1))
-                    ->from('interaction_logs')
-                    ->whereColumn('interaction_logs.student_id', 'users.id')
-                    ->where('interaction_logs.created_at', '>=', $inactiveDate);
-            })
-            ->get();
-
+        ->whereNotExists(function ($query) use ($inactiveDate) {
+            $query->select(DB::raw(1))
+                ->from('interaction_logs')
+                ->whereColumn('interaction_logs.student_id', 'users.id')
+                ->where('interaction_logs.created_at', '>=', $inactiveDate);
+        })->get();
         return $inactiveStudents;
     }
 
     public function render()
     {
-        $students = User::where('role_id', 3)->paginate(6);
+        $students = User::where('role_id', 3)->paginate(10);
         $inactiveStudentCount = count($this->getInactiveStudents($this->inactiveDays));
+
+
+        function findMax($pageViewsData): int
+        {
+            $maxPageViews = $pageViewsData->max('views');
+            $maxValue = 100;
+            while ($maxValue < $maxPageViews) {
+                $maxValue += 100;
+            }
+            return $maxValue;
+        }
+
+//        $maxPageViews = DB::table('page_views')->max('views');
 
         return view('livewire.pages.admin.dashboard-page', [
             'students' => $students,
             'numberOfMessages' => $this->getNumberOfMessages(),
             'studentsWithoutTutor' => $this->getNumberOfStudentsWithoutTutor(),
             'inactiveStudentCount' => $inactiveStudentCount,
-            'pageViewsData' => $this->getPageViewsData()
+            'pageViewsData' => $this->getPageViewsData(),
+            'maxPageViews' => findMax($this->getPageViewsData())
         ]);
     }
 }
