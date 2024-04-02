@@ -256,4 +256,9 @@ class User extends Authenticatable
             ->value('browser');
     }
 
+    public function interactionLogs()
+    {
+        return $this->hasMany(InteractionLog::class);
+    }
+
 }

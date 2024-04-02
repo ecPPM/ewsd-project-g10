@@ -2,8 +2,9 @@
 
 namespace App\Jobs;
 
-use App\Mail\AssignStudentMail;
-use App\Mail\AssignTutorMail;
+use App\Mail\InactivityWarningMail;
+use App\Mail\StudentWarningMail;
+use App\Mail\TutorWarningMail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -11,13 +12,16 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Mail;
 
-class SendMailJob implements ShouldQueue
+class SendWarningMailJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     protected $student;
     protected $tutor;
 
+    /**
+     * Create a new job instance.
+     */
     public function __construct($student, $tutor)
     {
         $this->student = $student;
@@ -29,13 +33,12 @@ class SendMailJob implements ShouldQueue
      */
     public function handle(): void
     {
-        $tutorMailSubject = "New Student Assigned";
-        $studentMailSubject = "New Tutor Assigned";
+        $mailSubject = "Important: Lack of Interaction Warning - Action Required";
 
         $namesForMailBody = ["student" => $this->student->name, "tutor" => $this->tutor->name];
 
-        Mail::to($this->student->email)->send(new AssignTutorMail($studentMailSubject, $namesForMailBody));
-        Mail::to($this->tutor->email)->send(new AssignStudentMail($tutorMailSubject, $namesForMailBody));
+        Mail::to($this->student->email)->send(new StudentWarningMail($mailSubject, $namesForMailBody));
+        Mail::to($this->tutor->email)->send(new TutorWarningMail($mailSubject, $namesForMailBody));
     }
 
     public function delay()
