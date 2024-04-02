@@ -227,9 +227,9 @@ class User extends Authenticatable
             ->where('created_at', '>=', $sevenDaysAgo)
             ->count();
 
-        if ($interactionCount >= 7) {
+        if ($interactionCount > 7) {
             return 'Most Active';
-        } elseif ($interactionCount > 1 && $interactionCount < 7) {
+        } elseif ($interactionCount >= 1 && $interactionCount < 7) {
             return 'Active';
         } else {
             return 'Inactive';
