@@ -74,6 +74,11 @@ class User extends Authenticatable
         return $this->students()->wherePivot('is_current', true);
     }
 
+    public function activeStudentIds()
+    {
+        return $this->students()->wherePivot('is_current', true)->pluck('student_id')->toArray();
+    }
+
     public function assignOrChangeTutor($tutorId)
     {
         $existingTutor = $this->activeTutor();

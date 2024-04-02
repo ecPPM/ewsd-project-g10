@@ -59,6 +59,9 @@ class DashboardPage extends Component
                 case '/meetings':
                     $item->page_url = 'Scheduling';
                     break;
+                case '/blog':
+                    $item->page_url = 'Chats';
+                    break;
             }
             if ($item->page_url == '/dashboard')
                 $item->page_url = 'Dashboard';
