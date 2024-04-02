@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Pages\Tutor;
 
+use App\Models\File;
 use App\Models\Post;
 use App\Models\StudentTutor;
 use App\Models\User;
@@ -22,12 +23,23 @@ class DashboardPage extends Component
         return redirect()->to('/students/' . $userId);
     }
 
-    public function getNumberOfMessages()
+    public function getData()
     {
-        return Post::where(function ($query) {
+        $messages = Post::where(function ($query) {
                 $query->where('sender_id', Auth::user()->id)
                     ->orWhere('receiver_id', Auth::user()->id);
-            })->count();
+            });
+
+        $messageIds = $messages->pluck('id')->toArray();
+
+        $numberOfFiles = File::whereIn('fileable_id', $messageIds)
+            ->where('fileable_type', 'post')
+            ->count();
+
+        return [
+            "messages" => $messages->count(),
+            "files" => $numberOfFiles
+        ];
     }
 
     public function getInactiveStudents($inactiveDays)
@@ -68,7 +80,8 @@ class DashboardPage extends Component
 
         return view('livewire.pages.tutor.dashboard-page', [
             'students' => $students,
-            'numberOfMessages' => $this->getNumberOfMessages(),
+            'numberOfMessages' => $this->getData()['messages'],
+            'numberOfFiles' => $this->getData()['files'],
             'inactiveStudentCount' => $inactiveStudentCount,
         ]);
     }

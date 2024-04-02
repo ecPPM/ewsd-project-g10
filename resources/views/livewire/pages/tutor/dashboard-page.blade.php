@@ -12,6 +12,15 @@
             <img src="{{ asset('images/message-icon.svg') }}" alt="Send"
                  class="w-8 h-8" />
         </div>
+        <div
+            class="flex items-center justify-between w-full bg-base-100 rounded-xl shadow py-10 px-6">
+            <div class="flex flex-col gap-2">
+                <span class="text-sm text-base-content/75">Number of Files</span>
+                <span class="font-semibold">{{ $numberOfFiles }}</span>
+            </div>
+            <img src="{{ asset('images/message-icon.svg') }}" alt="Send"
+                 class="w-8 h-8" />
+        </div>
         <div class="flex items-center w-full justify-between bg-base-100 rounded-xl shadow py-10 px-6">
             <div class="flex flex-col gap-2">
                 <span class="text-sm text-base-content/75">Inactive Students</span>
