@@ -1,37 +1,43 @@
 <div class="main-container">
-    <div class="">
-        <h2 class="main-title">
-            Statistics Reports
-        </h2>
-        <section class="h-[200px] w-full flex flex-row justify-center items-center space-x-6">
-            <div class="flex flex-col border border-gray-300 p-2 rounded">
-                <span class="font-bold">Number of Messages</span>
-                <span>{{ $numberOfMessages }}</span>
+    <h2 class="main-title">
+        Statistics Reports
+    </h2>
+    <div class="w-full max-w-5xl mx-auto flex flex-col sm:flex-row items-center gap-6">
+        <div
+            class="flex items-center justify-between w-full bg-base-100 rounded-xl shadow py-10 px-6">
+            <div class="flex flex-col gap-2">
+                <span class="text-sm text-base-content/75">Number of Messages</span>
+                <span class="font-semibold">{{ $numberOfMessages }}</span>
             </div>
-            <div class="flex flex-col border border-gray-300 p-2 rounded">
-                <span class="font-bold">Inactive Students</span>
-                <span>{{ $inactiveStudentCount }}</span>
+            <img src="{{ asset('images/message-icon.svg') }}" alt="Send"
+                 class="w-8 h-8" />
+        </div>
+        <div class="flex items-center w-full justify-between bg-base-100 rounded-xl shadow py-10 px-6">
+            <div class="flex flex-col gap-2">
+                <span class="text-sm text-base-content/75">Inactive Students</span>
+                <span class="font-semibold">{{ $inactiveStudentCount }}</span>
             </div>
-            <div class="flex flex-col border border-gray-300 p-2 rounded">
-                <span class="font-bold">Students Without Tutor</span>
-                <span>{{ $studentsWithoutTutor }}</span>
+            <img src="{{ asset('images/user-icon.svg') }}" alt="Send"
+                 class="w-8 h-8" />
+        </div>
+        <div class="flex items-center justify-between w-full bg-base-100 rounded-xl shadow py-10 px-6">
+            <div class="flex flex-col gap-2">
+                <span class="text-sm text-base-content/75">Students Without Tutor</span>
+                <span class="font-semibold">{{ $studentsWithoutTutor }}</span>
             </div>
-        </section>
+            <img src="{{ asset('images/graduate-icon.svg') }}" alt="Send"
+                 class="w-8 h-8" />
+        </div>
     </div>
 
-    <div class="mt-6">
-        <h2 class="main-title">
-            Students List
-        </h2>
-        <section class="h-[500px] w-full flex justify-center items-center">
-
+    <section class="flex flex-col items-start gap-8 mt-10">
+        <h2 class="main-title">Students List</h2>
+        <div class="w-full flex justify-center items-center">
             <div class="w-full overflow-x-scroll">
                 <table class="app-table">
                     <thead>
                     <tr class="text-left">
-                        <th class="action"></th>
                         <th>Student</th>
-
                         <th>Tutor</th>
                         <th>Status</th>
                         <th>Browser</th>
@@ -42,76 +48,54 @@
 
                     <tbody>
                     @foreach($students as $student)
-                        <tr title="Click to see details about this user" class="cursor-pointer hover:bg-base-200"
-                            wire:click="handleRowClick({{$student->id}})">
-                            <td class="action pl-3">
-
-                            </td>
+                        <tr title="Click to see details about this user" class="hover:bg-base-200">
                             <td>{{ $student->name }}</td>
-
+                            <td>{{ $student->activeTutor() ? $student->activeTutor()->name : '-'}}</td>
                             <td>
-                                @if($student->activeTutor())
-                                    {{ $student->activeTutor()->name }}
-                                @else
-                                    —
-                                @endif
+                            <span
+                                class="badge p-4 {{ $student->getActivityGrade() === 'Inactive' ? 'bg-red-200 text-red-500' : 'bg-green-200 text-green-500' }}">
+                                {{ $student->getActivityGrade() }}
+                            </span>
                             </td>
-                            {{-- <td>{{ $student->getActivityGrade() }}</td> --}}
-                            <td>
-                                <span class="badge w-20 h-8 {{ $student->getActivityGrade() === 'Inactive' ? 'bg-red-200 text-red-500' : 'bg-green-200 text-green-500' }}">
-                                    {{ $student->getActivityGrade() }}
-                                </span>
-                            </td>
-
                             <td>{{ $student->getLastBrowser() ?? '-' }}</td>
-
                             <td>{{ $student->getLastInteractionTime() }}</td>
                             <td class="action pr-2">
-                                <div class="w-2 h-2">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
-                                        <!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
-                                        <path
-                                            d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"
-                                            fill="#676767" />
-                                    </svg>
-                                </div>
+                            <span wire:click="handleRowClick({{$student->id}})"
+                                  class="badge badge-primary p-4 cursor-pointer hover:bg-primary hover:text-base-100 hover:border-primary badge-outline">
+                                View
+                            </span>
                             </td>
                         </tr>
                     @endforeach
                     </tbody>
                 </table>
             </div>
-
-        </section>
-        <div class="mt-6">
+        </div>
+        <div class="w-full">
             {{ $students->links('vendor.livewire.pagination') }}
         </div>
-    </div>
+    </section>
 
-    <div class="mt-6">
-        <h2 class="main-title">
-            Views By Page Title
-        </h2>
-        <section class="h-[500px] w-full flex justify-center items-center">
-            <div class="flex flex-col border border-gray-300 p-2 rounded">
-                <table class="app-table">
-                    <thead>
-                        <tr>
-                            <th>Page Title</th>
-                            <th>Views</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($pageViewsData as $pageView)
-                            <tr>
-                                <td>{{ $pageView->page_url }}</td>
-                                <td>{{ $pageView->views }}</td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-        </section>
-    </div>
-
+    <section class="flex flex-col items-start gap-8 mt-10">
+        <h2 class="main-title">Views By Page Title</h2>
+        <div class="w-full flex items-center justify-center">
+            <ul class="flex flex-col w-full  rounded-lg overflow-hidden shadow">
+                <li class="flex justify-between text-base font-semibold w-full px-10 py-6 bg-base-200">
+                    <span>Page Title</span>
+                    <span>Views</span>
+                </li>
+                @foreach($pageViewsData as $pageView)
+                    <li class="flex text-sm justify-between w-full  px-10 py-6 border-b bg-base-100">
+                        <span class=" w-1/4">{{ $pageView->page_url }}</span>
+                        <div class="flex items-center justify-end gap-2 w-3/4">
+                            <progress class="progress w-full h-1 progress-primary bg-transparent scale-x-[-1]"
+                                      value="{{ $pageView->views }}"
+                                      max="{{$maxPageViews}}"></progress>
+                            <span class="min-w-[30px] text-end">{{ $pageView->views }}</span>
+                        </div>
+                    </li>
+                @endforeach
+            </ul>
+        </div>
+    </section>
 </div>

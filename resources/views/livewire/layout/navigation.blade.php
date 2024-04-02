@@ -49,6 +49,11 @@ new class extends Component {
                         {{--            wire:navigate>--}}
                         {{--    {{ __('Allocation') }}--}}
                         {{--</x-nav-link>--}}
+                        <x-nav-link :href="route('dashboard')"
+                                    :active="request()->routeIs('dashboard')"
+                                    wire:navigate>
+                            {{ __('Dashboard') }}
+                        </x-nav-link>
 
                         <x-nav-link :href="route('students')"
                                     :active="request()->routeIs('students') || request()->routeIs('students-details')"
@@ -60,12 +65,6 @@ new class extends Component {
                                     :active="request()->routeIs('tutors') || request()->routeIs('tutor-details')"
                                     wire:navigate>
                             {{ __('Tutors') }}
-                        </x-nav-link>
-
-                        <x-nav-link :href="route('dashboard')"
-                                    :active="request()->routeIs('dashboard')"
-                                    wire:navigate>
-                            {{ __('Dashboard') }}
                         </x-nav-link>
                     @endif
                     {{-- ADMIN ROUTES END --}}
@@ -116,22 +115,22 @@ new class extends Component {
                 </x-responsive-nav-link>
 
                 <x-responsive-nav-link :href="route('meetings')" :active="request()->routeIs('meetings')"
-                    wire:navigate>
+                                       wire:navigate>
                     {{ __('Scheduling') }}
                 </x-responsive-nav-link>
 
                 <x-responsive-nav-link :href="route('blog')" :active="request()->routeIs('meetings')"
-                    wire:navigate>
+                                       wire:navigate>
                     {{ __('Chats') }}
                 </x-responsive-nav-link>
             @endif
 
             @if (auth()->user()->role->name === 'admin')
-                {{--<x-responsive-nav-link :href="route('allocation')" :active="request()->routeIs('allocation')"--}}
-                {{--                       wire:navigate>--}}
-                {{--    {{ __('Allocation') }}--}}
-                {{--</x-responsive-nav-link>--}}
-
+                <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')"
+                                       wire:navigate>
+                    {{ __('Dashboard') }}
+                </x-responsive-nav-link>
+                
                 <x-responsive-nav-link :href="route('students')" :active="request()->routeIs('students')"
                                        wire:navigate>
                     {{ __('Students') }}
@@ -140,11 +139,6 @@ new class extends Component {
                 <x-responsive-nav-link :href="route('tutors')" :active="request()->routeIs('tutors')"
                                        wire:navigate>
                     {{ __('Tutors') }}
-                </x-responsive-nav-link>
-
-                <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')"
-                                       wire:navigate>
-                    {{ __('Dashboard') }}
                 </x-responsive-nav-link>
             @endif
         </div>
