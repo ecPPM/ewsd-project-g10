@@ -10,8 +10,8 @@
                     wire:model.live="days"
                     class="select w-full text-base"
             >
-                <option value="7" selected>7 Days</option>
-                <option value="28">28 Days</option>
+                <option value="7" selected>Last 7 Days</option>
+                <option value="28">Last 28 Days</option>
             </select>
         </div>
     </div>
