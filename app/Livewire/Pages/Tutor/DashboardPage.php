@@ -57,31 +57,20 @@ class DashboardPage extends Component
         return $inactiveStudents;
     }
 
-    function getDistinctStudentIdsFromInteractionLogsTable()
-    {
-        return DB::table('interaction_logs')
-            ->distinct()
-            ->pluck('student_id')
-            ->toArray();
-    }
-
     public function render()
     {
         $students = Auth::user()->activeStudents()
             ->orderBy('last_logged_in', 'desc')
             ->paginate(10);
 
-        $studentIdsOfThisTutor = Auth::user()->activeStudentIds();
-        $activeStudentIds = $this->getDistinctStudentIdsFromInteractionLogsTable();
+        $inactiveStudentCount = count($this->getInactiveStudents($this->inactiveDays));
 
-        $zeroActivityStudents = count(array_diff($studentIdsOfThisTutor, $activeStudentIds));
-
-        $inactiveStudentCount = count($this->getInactiveStudents($this->inactiveDays)) + $zeroActivityStudents;
+        $data = $this->getData();
 
         return view('livewire.pages.tutor.dashboard-page', [
             'students' => $students,
-            'numberOfMessages' => $this->getData()['messages'],
-            'numberOfFiles' => $this->getData()['files'],
+            'numberOfMessages' => $data['messages'],
+            'numberOfFiles' => $data['files'],
             'inactiveStudentCount' => $inactiveStudentCount,
         ]);
     }
