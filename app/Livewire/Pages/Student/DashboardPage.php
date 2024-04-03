@@ -28,19 +28,13 @@ class DashboardPage extends Component
         ];
     }
 
-    // public function getNumberOfMessages()
-    // {
-    //     return Post::where(function ($query) {
-    //             $query->where('sender_id', Auth::user()->id)
-    //                 ->orWhere('receiver_id', Auth::user()->id);
-    //         })->count();
-    // }
-
     public function render()
     {
+        $data = $this->getData();
+
         return view('livewire.pages.student.dashboard-page', [
-            'numberOfMessages' => $this->getData()['messages'],
-            'numberOfFiles' => $this->getData()['files'],
+            'numberOfMessages' => $data['messages'],
+            'numberOfFiles' => $data['files'],
         ]);
     }
 }
