@@ -14,16 +14,16 @@ class DashboardPage extends Component
 {
     use WithPagination;
 
-    public $inactiveDays = 7;
+    public $days = 7;
 
     public function handleRowClick($userId)
     {
         return redirect()->to('/students/' . $userId);
     }
 
-    public function getNumberOfMessages()
+    public function getNumberOfMessages($days)
     {
-        return Post::count();
+        return Post::where('created_at', '>=', now()->subDays($days))->count();
     }
 
     public function getNumberOfStudentsWithoutTutor()
@@ -86,8 +86,7 @@ class DashboardPage extends Component
     public function render()
     {
         $students = User::where('role_id', 3)->paginate(10);
-        $inactiveStudentCount = count($this->getInactiveStudents($this->inactiveDays));
-
+        $inactiveStudentCount = count($this->getInactiveStudents($this->days));
 
         function findMax($pageViewsData): int
         {
@@ -103,7 +102,7 @@ class DashboardPage extends Component
 
         return view('livewire.pages.admin.dashboard-page', [
             'students' => $students,
-            'numberOfMessages' => $this->getNumberOfMessages(),
+            'numberOfMessages' => $this->getNumberOfMessages($this->days),
             'studentsWithoutTutor' => $this->getNumberOfStudentsWithoutTutor(),
             'inactiveStudentCount' => $inactiveStudentCount,
             'pageViewsData' => $this->getPageViewsData(),
