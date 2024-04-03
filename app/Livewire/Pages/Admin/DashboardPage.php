@@ -14,16 +14,24 @@ class DashboardPage extends Component
 {
     use WithPagination;
 
-    public $inactiveDays = 7;
+    public $days = 7;
+    public $statusFlag = true;
+
+    public function handleSortClick($flag)
+    {
+        if($flag === "status"){
+            $this->statusFlag = !$this->statusFlag;
+        }
+    }
 
     public function handleRowClick($userId)
     {
         return redirect()->to('/students/' . $userId);
     }
 
-    public function getNumberOfMessages()
+    public function getNumberOfMessages($days)
     {
-        return Post::count();
+        return Post::where('created_at', '>=', now()->subDays($days))->count();
     }
 
     public function getNumberOfStudentsWithoutTutor()
@@ -83,11 +91,26 @@ class DashboardPage extends Component
         return $inactiveStudents;
     }
 
+    public function sortByStatus($students)
+    {
+        $days = $this->days;
+        $students->withCount(['interactionLogs as interaction_logs_count' => function ($query) use ($days) {
+            $query->whereColumn('student_id', 'users.id')
+                  ->where('created_at', '>=', now()->subDays($days));
+        }])->orderByDesc('interaction_logs_count');
+
+        return $students;
+    }
+
     public function render()
     {
-        $students = User::where('role_id', 3)->paginate(10);
-        $inactiveStudentCount = count($this->getInactiveStudents($this->inactiveDays));
+        $students = User::where('role_id', 3);
+        if ($this->statusFlag) {
+            $students = $this->sortByStatus($students);
+        }
+        $students = $students->paginate(10);
 
+        $inactiveStudentCount = count($this->getInactiveStudents($this->days));
 
         function findMax($pageViewsData): int
         {
@@ -103,7 +126,7 @@ class DashboardPage extends Component
 
         return view('livewire.pages.admin.dashboard-page', [
             'students' => $students,
-            'numberOfMessages' => $this->getNumberOfMessages(),
+            'numberOfMessages' => $this->getNumberOfMessages($this->days),
             'studentsWithoutTutor' => $this->getNumberOfStudentsWithoutTutor(),
             'inactiveStudentCount' => $inactiveStudentCount,
             'pageViewsData' => $this->getPageViewsData(),

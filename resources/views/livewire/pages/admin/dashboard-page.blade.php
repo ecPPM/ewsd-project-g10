@@ -1,7 +1,21 @@
 <div class="main-container">
-    <h2 class="main-title">
-        Statistics Reports
-    </h2>
+    <div class="flex flex-row justify-between">
+        <h2 class="main-title">
+            Statistics Reports
+        </h2>
+        <div class="flex items-center">
+            <select aria-label="select-box-for-duration-days"
+                    name="days"
+                    id="days"
+                    wire:model.live="days"
+                    class="select w-full text-base"
+            >
+                <option value="7" selected>7 Days</option>
+                <option value="28">28 Days</option>
+            </select>
+        </div>
+    </div>
+
     <div class="w-full max-w-5xl mx-auto flex flex-col sm:flex-row items-center gap-6">
         <div
             class="flex items-center justify-between w-full bg-base-100 rounded-xl shadow py-10 px-6">

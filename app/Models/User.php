@@ -263,7 +263,7 @@ class User extends Authenticatable
 
     public function interactionLogs()
     {
-        return $this->hasMany(InteractionLog::class);
+        return $this->hasMany(InteractionLog::class ,'student_id');
     }
 
 }
