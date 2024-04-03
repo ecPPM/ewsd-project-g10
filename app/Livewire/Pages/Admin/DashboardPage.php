@@ -15,6 +15,14 @@ class DashboardPage extends Component
     use WithPagination;
 
     public $days = 7;
+    public $statusFlag = true;
+
+    public function handleSortClick($flag)
+    {
+        if($flag === "status"){
+            $this->statusFlag = !$this->statusFlag;
+        }
+    }
 
     public function handleRowClick($userId)
     {
@@ -83,9 +91,25 @@ class DashboardPage extends Component
         return $inactiveStudents;
     }
 
+    public function sortByStatus($students)
+    {
+        $days = $this->days;
+        $students->withCount(['interactionLogs as interaction_logs_count' => function ($query) use ($days) {
+            $query->whereColumn('student_id', 'users.id')
+                  ->where('created_at', '>=', now()->subDays($days));
+        }])->orderByDesc('interaction_logs_count');
+
+        return $students;
+    }
+
     public function render()
     {
-        $students = User::where('role_id', 3)->paginate(10);
+        $students = User::where('role_id', 3);
+        if ($this->statusFlag) {
+            $students = $this->sortByStatus($students);
+        }
+        $students = $students->paginate(10);
+
         $inactiveStudentCount = count($this->getInactiveStudents($this->days));
 
         function findMax($pageViewsData): int
