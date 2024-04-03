@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Mail\NewMeetingMail;
+use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -34,6 +35,7 @@ class SendMeetingMailJob implements ShouldQueue
         $mailSubject = "New Meeting Alert";
 
         $dataForMailBody = $this->meeting;
+        $dataForMailBody->formattedTime = Carbon::parse($dataForMailBody->time)->format('h:i A / M d, Y');
 
         Mail::to($this->student->email)->send(new NewMeetingMail($mailSubject, $dataForMailBody));
     }
