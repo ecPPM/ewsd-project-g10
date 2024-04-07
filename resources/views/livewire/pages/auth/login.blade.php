@@ -27,10 +27,6 @@ new #[Layout('layouts.guest')] class extends Component {
 
         $redirectTo = RouteServiceProvider::HOME;
 
-        // if (auth()->user()->role->name == 'admin') {
-        //     $redirectTo = RouteServiceProvider::ADMIN_HOME;
-        // }
-
         $this->redirectIntended($redirectTo, navigate: true);
     }
 }; ?>

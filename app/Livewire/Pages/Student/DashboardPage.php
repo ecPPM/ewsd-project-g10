@@ -9,6 +9,16 @@ use Livewire\Component;
 
 class DashboardPage extends Component
 {
+    public $openfirstLoginModal = false;
+
+    protected $listeners = ['first-login' => 'toggleFirstLoginModal'];
+
+    public function toggleFirstLoginModal()
+    {
+        $this->openfirstLoginModal = !$this->openfirstLoginModal;
+        dd("toggleFirstLoginModal triggered");
+    }
+
     public function getData()
     {
         $messages = Post::where(function ($query) {
