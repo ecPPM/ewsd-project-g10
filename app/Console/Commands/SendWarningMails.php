@@ -42,7 +42,7 @@ class SendWarningMails extends Command
 
         // Get students with no interactions over 28 days
         $students = User::whereIn('id', $studentIds)->get();
-        $counter = 0;
+        //$counter = 0;
 
         foreach ($students as $student) {
 
@@ -53,14 +53,9 @@ class SendWarningMails extends Command
 
                 $tutor = $student->activeTutor();
                 echo "\nMail sent to $student->name and $tutor->name";
-                $counter++;
-                if ($counter == 3) break;
+                // $counter++;
+                // if ($counter == 3) break;
             }
-
-
-
-            // Send notification to tutor
-
         }
     }
 }

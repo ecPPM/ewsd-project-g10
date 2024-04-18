@@ -78,8 +78,8 @@
                             <td>{{ $student->activeTutor() ? $student->activeTutor()->name : '-'}}</td>
                             <td>
                             <span
-                                class="badge p-4 {{ $student->getActivityGrade() === 'Inactive' ? 'bg-red-200 text-red-500' : 'bg-green-200 text-green-500' }}">
-                                {{ $student->getActivityGrade() }}
+                                class="badge p-4 {{ $student->getActivityGrade($days) === 'Inactive' ? 'bg-red-200 text-red-500' : 'bg-green-200 text-green-500' }}">
+                                {{ $student->getActivityGrade($days) }}
                             </span>
                             </td>
                             <td>{{ $student->getLastBrowser() ?? '-' }}</td>
