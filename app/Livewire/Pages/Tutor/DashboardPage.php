@@ -16,6 +16,8 @@ class DashboardPage extends Component
 {
     use WithPagination;
 
+    public $days = 7;
+
     public $inactiveDays = 7;
 
     public $modalOpen;

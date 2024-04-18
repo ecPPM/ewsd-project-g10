@@ -219,17 +219,17 @@ class User extends Authenticatable
             ->exists();
     }
 
-    public function getActivityGrade()
+    public function getActivityGrade($days)
     {
-        $sevenDaysAgo = Carbon::now()->subDays(7);
+        $daysAgo = Carbon::now()->subDays($days);
 
         $interactionCount = InteractionLog::where('student_id', $this->id)
-            ->where('created_at', '>=', $sevenDaysAgo)
+            ->where('created_at', '>=', $daysAgo)
             ->count();
 
-        if ($interactionCount >= 7) {
+        if ($interactionCount >= $days) {
             return 'Most Active';
-        } elseif ($interactionCount >= 1 && $interactionCount < 7) {
+        } elseif ($interactionCount >= 1 && $interactionCount < $days) {
             return 'Active';
         } else {
             return 'Inactive';

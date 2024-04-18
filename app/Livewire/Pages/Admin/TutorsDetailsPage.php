@@ -13,7 +13,7 @@ use Livewire\WithPagination;
 class TutorsDetailsPage extends Component
 {
     use WithPagination;
-
+    public $days = 7;
     public $inactiveDays = 7;
     public $tutorId;
 
