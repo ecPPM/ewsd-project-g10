@@ -10,6 +10,17 @@ use Livewire\Component;
 
 class DashboardPage extends Component
 {
+    public $modalOpen;
+
+    public function mount()
+    {
+        if (Auth::user()->first_login) {
+            $this->modalOpen = true;
+        } else {
+            $this->modalOpen = false;
+        }
+    }
+
     public function closeFirstLoginModal()
     {
         $user = User::find(Auth::user()->id);
@@ -18,6 +29,8 @@ class DashboardPage extends Component
             $user->first_login = false;
             $user->save();
         }
+
+        $this->modalOpen = false;
     }
 
     public function getData()

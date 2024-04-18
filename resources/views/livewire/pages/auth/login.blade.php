@@ -21,9 +21,15 @@ new #[Layout('layouts.guest')] class extends Component {
 
         Session::regenerate();
 
-        auth()->user()->update([
-            'last_logged_in' => now()
-        ]);
+        $previousLastLogin = auth()->user()->last_logged_in ?? "empty";
+
+        $user = auth()->user();
+        $user->last_logged_in = now();
+        $user->first_login = true;
+        $user->save();
+
+        // session()->flash('previousLastLogin', $previousLastLogin);
+        session()->put('previousLastLogin', $previousLastLogin);
 
         $redirectTo = RouteServiceProvider::HOME;
 
