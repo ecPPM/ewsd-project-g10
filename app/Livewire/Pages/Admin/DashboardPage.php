@@ -17,7 +17,7 @@ class DashboardPage extends Component
     public $days = 7;
     public $statusFlag = true;
 
-    public function handleSortClick($flag)
+    public function handleStatusSortClick($flag)
     {
         if($flag === "status"){
             $this->statusFlag = !$this->statusFlag;
@@ -91,7 +91,7 @@ class DashboardPage extends Component
         return $inactiveStudents;
     }
 
-    public function sortByStatus($students)
+    public function sortByDescStatus($students)
     {
         $days = $this->days;
         $students->withCount(['interactionLogs as interaction_logs_count' => function ($query) use ($days) {
@@ -102,11 +102,24 @@ class DashboardPage extends Component
         return $students;
     }
 
+    public function sortByAscStatus($students)
+    {
+        $days = $this->days;
+        $students->withCount(['interactionLogs as interaction_logs_count' => function ($query) use ($days) {
+            $query->whereColumn('student_id', 'users.id')
+                  ->where('created_at', '>=', now()->subDays($days));
+        }])->orderBy('interaction_logs_count');
+
+        return $students;
+    }
+
     public function render()
     {
         $students = User::where('role_id', 3);
         if ($this->statusFlag) {
-            $students = $this->sortByStatus($students);
+            $students = $this->sortByDescStatus($students);
+        } else {
+            $students = $this->sortByAscStatus($students);
         }
         $students = $students->paginate(10);
 
