@@ -1,4 +1,18 @@
 <div class="main-container">
+
+    <dialog id="welcomeModal" class="modal @if($modalOpen) modal-open @endif">
+        <div class="modal-box flex flex-col w-4/12 max-w-3xl px-5 md:px-10 pt-0 pb-4 md:pb-8">
+            <div class="flex flex-col gap-8 relative">
+                <div class="flex flex-col gap-4 pt-4 md:pt-8 bg-base-100 sticky top-0 left-0">
+                    <h4 class="text-lg md:text-2xl font-semibold">Welcome to eTutor!</h4>
+                    <p class="text-sm">Please explore around the application.</p>
+                    <p class="text-sm">If you need any help, feel free to contact us.</p>
+                    <button wire:click="closeFirstLoginModal" class="btn btn-sm bg-primary text-white">Got it!</button>
+                </div>
+            </div>
+        </div>
+    </dialog>
+
     <h2 class="main-title">
         Statistics Reports
     </h2>

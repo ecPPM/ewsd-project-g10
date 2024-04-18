@@ -18,6 +18,29 @@ class DashboardPage extends Component
 
     public $inactiveDays = 7;
 
+    public $modalOpen;
+
+    public function mount()
+    {
+        if (Auth::user()->first_login) {
+            $this->modalOpen = true;
+        } else {
+            $this->modalOpen = false;
+        }
+    }
+
+    public function closeFirstLoginModal()
+    {
+        $user = User::find(Auth::user()->id);
+
+        if ($user) {
+            $user->first_login = false;
+            $user->save();
+        }
+
+        $this->modalOpen = false;
+    }
+
     public function handleRowClick($userId)
     {
         return redirect()->to('/students/' . $userId);
