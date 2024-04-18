@@ -4,19 +4,20 @@ namespace App\Livewire\Pages\Student;
 
 use App\Models\File;
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
 class DashboardPage extends Component
 {
-    public $openfirstLoginModal = false;
-
-    protected $listeners = ['first-login' => 'toggleFirstLoginModal'];
-
-    public function toggleFirstLoginModal()
+    public function closeFirstLoginModal()
     {
-        $this->openfirstLoginModal = !$this->openfirstLoginModal;
-        dd("toggleFirstLoginModal triggered");
+        $user = User::find(Auth::user()->id);
+
+        if ($user) {
+            $user->first_login = false;
+            $user->save();
+        }
     }
 
     public function getData()
