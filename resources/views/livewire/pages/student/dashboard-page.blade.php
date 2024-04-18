@@ -5,9 +5,13 @@
             <div class="flex flex-col gap-8 relative">
                 <div class="flex flex-col gap-4 pt-4 md:pt-8 bg-base-100 sticky top-0 left-0">
                     <h4 class="text-lg md:text-2xl font-semibold">Welcome to eTutor!</h4>
-                    <p class="text-sm">Please explore around the application, maybe send a message to your tutor on the platform.</p>
-                    <p class="text-sm">If you need any help, feel free to contact us.</p>
-                    <button wire:click="closeFirstLoginModal" class="btn btn-sm bg-primary text-white">Got it!</button>
+                    @if(session('previousLastLogin') == "empty")
+                        <p class="text-sm">Please explore around the application, maybe send a message to your tutor on the platform.</p>
+                        <p class="text-sm">If you need any help, feel free to contact us.</p>
+                    @else
+                        <span class="text-sm">Last Login: {{ session('previousLastLogin') }}</span>
+                    @endif
+                    <button wire:click="closeFirstLoginModal" class="btn btn-sm bg-primary text-white">Okay</button>
                 </div>
             </div>
         </div>
