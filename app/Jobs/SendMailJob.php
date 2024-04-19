@@ -18,7 +18,7 @@ class SendMailJob implements ShouldQueue
     protected $student;
     protected $tutor;
 
-    public function __construct($student, $tutor)
+    public function __construct($tutor, $student)
     {
         $this->student = $student;
         $this->tutor = $tutor;
