@@ -6,6 +6,7 @@ use App\Models\Post;
 use App\Models\StudentTutor;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -16,6 +17,29 @@ class DashboardPage extends Component
 
     public $days = 7;
     public $statusFlag = true;
+
+    public $modalOpen;
+
+    public function mount()
+    {
+        if (Auth::user()->first_login) {
+            $this->modalOpen = true;
+        } else {
+            $this->modalOpen = false;
+        }
+    }
+
+    public function closeFirstLoginModal()
+    {
+        $user = User::find(Auth::user()->id);
+
+        if ($user) {
+            $user->first_login = false;
+            $user->save();
+        }
+
+        $this->modalOpen = false;
+    }
 
     public function handleStatusSortClick($flag)
     {
